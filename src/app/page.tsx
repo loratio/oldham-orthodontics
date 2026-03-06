@@ -5,91 +5,44 @@ import { useEffect, useRef, useState } from "react";
 // Navigation menu data structure
 const menuItems = [
   {
-    label: "About",
+    label: "Treatments",
     href: "#",
     submenu: [
-      { label: "Our Team", href: "#" },
-      { label: "Practice Tour", href: "#" },
-      { label: "BDA Good Practice", href: "#" },
-      { label: "Practice Gallery", href: "#" },
-      { label: "Leave a Review", href: "#" },
-    ],
-  },
-  {
-    label: "Treatments",
-    href: "/treatments",
-    submenu: [
       {
-        label: "Straight Teeth For Adults",
+        label: "Clear Aligners",
         href: "#",
         submenu: [
-          { label: "Aligners", href: "#" },
-          { label: "Braces", href: "#" },
-          { label: "Tooth Whitening", href: "#" },
+          { label: "Invisalign®", href: "#" },
+          { label: "Clarity™ Aligners", href: "#" },
+          { label: "ClearCorrect Aligners", href: "#" },
         ],
       },
       {
-        label: "Straight Teeth For Children/Teens",
+        label: "Braces",
         href: "#",
         submenu: [
-          { label: "Aligners for Children/Teens", href: "#" },
-          { label: "Braces for Children/Teens", href: "#" },
-          { label: "Braces for Under 10s", href: "#" },
-          { label: "NHS Suitability Check", href: "#" },
-        ],
-      },
-      {
-        label: "Hidden Braces",
-        href: "#",
-        submenu: [
+          { label: "Metal Braces", href: "#" },
           { label: "Ceramic Braces", href: "#" },
-          { label: "Clear Aligners", href: "#" },
           { label: "Lingual Braces", href: "#" },
         ],
       },
       {
-        label: "Fixed Braces",
+        label: "Treatment For",
         href: "#",
         submenu: [
-          { label: "Metal Braces", href: "#" },
-          { label: "Self Ligating Braces", href: "#" },
+          { label: "Adults", href: "#" },
+          { label: "Teens", href: "#" },
+          { label: "Children", href: "#" },
         ],
       },
       {
-        label: "Severe Cases",
+        label: "Other Services",
         href: "#",
         submenu: [
-          { label: "Functional Braces", href: "#" },
-          { label: "Orthognathic Surgery", href: "#" },
+          { label: "Jaw Surgery", href: "#" },
+          { label: "Retainers", href: "#" },
         ],
       },
-      {
-        label: "Retainers",
-        href: "#",
-        submenu: [
-          { label: "Retainers 4 Life", href: "#" },
-          { label: "Oldham Retainers", href: "#" },
-          { label: "Caring for Your Braces", href: "#" },
-        ],
-      },
-    ],
-  },
-  {
-    label: "Why Choose Us",
-    href: "#",
-    submenu: [
-      { label: "Our Specialists", href: "#" },
-      { label: "Our Team", href: "#" },
-      { label: "Our Philosophy", href: "#" },
-      { label: "Our Awards", href: "#" },
-    ],
-  },
-  {
-    label: "Success Stories",
-    href: "#",
-    submenu: [
-      { label: "Before and Afters", href: "#" },
-      { label: "Testimonials", href: "#" },
     ],
   },
   {
@@ -97,19 +50,19 @@ const menuItems = [
     href: "#",
   },
   {
-    label: "For Patients",
+    label: "Results",
+    href: "#",
+  },
+  {
+    label: "About Us",
     href: "#",
     submenu: [
-      { label: "New Patients", href: "#" },
-      { label: "Information Leaflets", href: "#" },
-      { label: "FAQs", href: "#" },
-      { label: "Orthodontists vs Dentists", href: "#" },
-      { label: "Your Feedback", href: "#" },
-      { label: "Blog", href: "#" },
+      { label: "Meet Our Team", href: "#" },
+      { label: "Our Practice", href: "#" },
     ],
   },
   {
-    label: "Contact Us",
+    label: "Contact",
     href: "#",
   },
 ];
@@ -176,43 +129,55 @@ type MenuItem = {
 
 const NavItem = ({ item }: { item: MenuItem }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const hasMegaMenu = item.label === "Treatments" && item.submenu?.some(s => s.submenu);
+
+  const handleEnter = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setIsOpen(true);
+  };
+
+  const handleLeave = () => {
+    timeoutRef.current = setTimeout(() => setIsOpen(false), 150);
+  };
 
   return (
     <div
-      className="nav-item"
-      onMouseEnter={() => setIsOpen(true)}
-      onMouseLeave={() => setIsOpen(false)}
+      className={`nav-item${hasMegaMenu ? " has-mega" : ""}`}
+      onMouseEnter={handleEnter}
+      onMouseLeave={handleLeave}
     >
       <a href={item.href} className="nav-link">
         {item.label}
         {item.submenu && <ChevronDown />}
       </a>
       {item.submenu && isOpen && (
-        <div className="dropdown">
-          {item.submenu.map((subItem, index) => (
-            <div key={index} className="dropdown-item-wrapper">
-              <a href={subItem.href} className="dropdown-item">
-                {subItem.label}
-                {subItem.submenu && (
-                  <span className="submenu-arrow">&rsaquo;</span>
-                )}
-              </a>
-              {subItem.submenu && (
-                <div className="nested-dropdown">
-                  {subItem.submenu.map((nestedItem, nestedIndex) => (
-                    <a
-                      key={nestedIndex}
-                      href={nestedItem.href}
-                      className="dropdown-item"
-                    >
-                      {nestedItem.label}
-                    </a>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+        hasMegaMenu ? (
+          <div className="mega-menu" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+            {item.submenu.map((category, index) => (
+              <div key={index} className="mega-menu-column">
+                <a href={category.href} className="mega-menu-heading">
+                  {category.label}
+                </a>
+                {category.submenu?.map((subItem, subIndex) => (
+                  <a key={subIndex} href={subItem.href} className="mega-menu-item">
+                    {subItem.label}
+                  </a>
+                ))}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="dropdown" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+            {item.submenu.map((subItem, index) => (
+              <div key={index} className="dropdown-item-wrapper">
+                <a href={subItem.href} className="dropdown-item">
+                  {subItem.label}
+                </a>
+              </div>
+            ))}
+          </div>
+        )
       )}
     </div>
   );
@@ -352,9 +317,9 @@ function BeforeAfterSlider({ label }: { label: string }) {
       >
         <div className="ba-handle-line" />
         <div className="ba-handle-circle">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <polyline points="9 18 15 12 9 6" />
-            <polyline points="15 18 9 12 15 6" />
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <polyline points="9 6 3 12 9 18" />
+            <polyline points="15 6 21 12 15 18" />
           </svg>
         </div>
       </div>
@@ -366,16 +331,18 @@ function BeforeAfterSlider({ label }: { label: string }) {
 
 // Team data
 const teamMembers = [
-  { name: "Dr. Sarah Mitchell", role: "SPECIALIST ORTHODONTIST", gender: "female" },
-  { name: "Dr. James Thompson", role: "SPECIALIST ORTHODONTIST", gender: "male" },
-  { name: "Dr. Emily Roberts", role: "SPECIALIST ORTHODONTIST", gender: "female" },
-  { name: "Dr. Michael Chen", role: "SPECIALIST ORTHODONTIST", gender: "male" },
-  { name: "Dr. Rachel Adams", role: "SPECIALIST ORTHODONTIST", gender: "female" },
+  { name: "Dr Ovais Malik", role: "CONSULTANT & SPECIALIST ORTHODONTIST", gender: "male", image: "https://cdn.shopify.com/s/files/1/0858/4382/files/IMG_3769_1_1.jpg" },
+  { name: "Dr Sarah Glossop", role: "CONSULTANT & SPECIALIST ORTHODONTIST", gender: "female" },
+  { name: "Hamza Anwar", role: "SPECIALIST ORTHODONTIST", gender: "male" },
+  { name: "Dr Nadia Stivaros", role: "SPECIALIST IN ORTHODONTICS", gender: "female" },
+  { name: "Dr Samer Salam", role: "SPECIALIST IN ORTHODONTICS", gender: "male" },
+  { name: "Dr Simon Watkinson", role: "CONSULTANT & SPECIALIST ORTHODONTIST", gender: "male" },
+  { name: "Dr Richard Needham", role: "CONSULTANT & SPECIALIST ORTHODONTIST", gender: "male" },
 ];
 
 // Team Section with carousel
 function TeamSection() {
-  const [activeIndex, setActiveIndex] = useState(1);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
   const handlePrev = () => {
@@ -413,7 +380,7 @@ function TeamSection() {
     <section className="team">
       <div className="team-container">
         <div className="team-content">
-          <div className="team-label">MEET THE TEAM</div>
+          <div className="section-label">Meet The Team</div>
           <h2 className="team-title">
             <span className="team-title-line1">Specialist Orthodontists</span>
             <span className="team-title-line2">Dedicated To Exceptional Care</span>
@@ -425,7 +392,7 @@ function TeamSection() {
             starting point or goals, you&apos;ll be in safe, trusted hands.
           </p>
           <a href="#" className="btn-team-cta">
-            MEET OUR TEAM
+            Meet Our Team
           </a>
         </div>
         <div className="team-carousel">
@@ -444,10 +411,14 @@ function TeamSection() {
                   className={`carousel-card carousel-card-${position}`}
                 >
                   <div className={`carousel-card-img carousel-card-img-${member.gender}`}>
-                    <svg viewBox="0 0 100 100" className="placeholder-avatar">
-                      <circle cx="50" cy="35" r="20" fill="currentColor" opacity="0.3" />
-                      <ellipse cx="50" cy="85" rx="30" ry="25" fill="currentColor" opacity="0.3" />
-                    </svg>
+                    {member.image ? (
+                      <img src={member.image} alt={member.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    ) : (
+                      <svg viewBox="0 0 100 100" className="placeholder-avatar">
+                        <circle cx="50" cy="35" r="20" fill="currentColor" opacity="0.3" />
+                        <ellipse cx="50" cy="85" rx="30" ry="25" fill="currentColor" opacity="0.3" />
+                      </svg>
+                    )}
                   </div>
                   <div className="carousel-card-info">
                     <h3>{member.name}</h3>
@@ -470,34 +441,37 @@ function TeamSection() {
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
-  const [headerTop, setHeaderTop] = useState(56);
+  const [topBarHeight, setTopBarHeight] = useState(40);
+  const topBarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const measure = () => {
+      if (topBarRef.current) {
+        setTopBarHeight(topBarRef.current.offsetHeight);
+      }
+    };
+    measure();
+    window.addEventListener("resize", measure);
+
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
-      setHeaderTop(window.scrollY > 50 ? 0 : 56);
     };
 
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", measure);
+    };
   }, []);
 
   return (
     <>
       {/* TOP BAR */}
-      <div className="top-bar">
-        <div className="top-bar-inner">
-          <div className="top-bar-left">
-            <a href="tel:01616200808" className="top-bar-phone">
-              <PhoneIcon /> 0161 620 0808
-            </a>
-            <span>
-              <ClockIcon /> Mon-Fri: 8:30am - 5:30pm
-            </span>
-          </div>
+      <div className="top-bar" ref={topBarRef}>
+        <div className="top-bar-inner" style={{ justifyContent: "flex-end" }}>
           <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
-            <a href="#" className="top-bar-link">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <a href="#" className="top-bar-link" style={{ fontWeight: 700 }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                 <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
                 <circle cx="9" cy="7" r="4" />
                 <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
@@ -505,8 +479,8 @@ export default function Home() {
               </svg>
               Dentist Referrals
             </a>
-            <a href="mailto:info@oldhamorthodontics.co.uk">
-              info@oldhamorthodontics.co.uk
+            <a href="tel:01616200808" className="top-bar-phone">
+              <PhoneIcon /> 0161 620 0808
             </a>
           </div>
         </div>
@@ -515,7 +489,7 @@ export default function Home() {
       {/* HEADER */}
       <header
         className={`header ${scrolled ? "scrolled" : ""}`}
-        style={{ top: `${headerTop}px` }}
+        style={{ top: `${topBarHeight}px` }}
       >
         <div className="header-inner">
           <a href="#" className="logo">
@@ -562,10 +536,6 @@ export default function Home() {
         />
         <div className="hero-inner">
           <div className="hero-content">
-            <div className="hero-badge">
-              <StarIcon />
-              Specialist Orthodontic Practice
-            </div>
             <h1>
               Creating <span>Confident Smiles</span> for Children & Adults
             </h1>
@@ -584,7 +554,7 @@ export default function Home() {
             </div>
             <div className="hero-stats">
               <div className="hero-stat">
-                <div className="num">30+</div>
+                <div className="num">100+</div>
                 <div className="label">Years Experience</div>
               </div>
               <div className="hero-stat">
@@ -592,33 +562,13 @@ export default function Home() {
                 <div className="label">Aligner Systems</div>
               </div>
               <div className="hero-stat">
-                <div className="num">5*</div>
+                <div className="num">4.6<svg width="24" height="24" viewBox="0 0 24 24" fill="#f5c542" stroke="#f5c542" strokeWidth="1" style={{display: "inline", verticalAlign: "middle", marginLeft: "2px", marginBottom: "4px"}}><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
                 <div className="label">Patient Rating</div>
               </div>
             </div>
           </div>
         </div>
       </section>
-
-      {/* INFO BAR */}
-      <div className="info-bar">
-        <div className="info-item">
-          <div className="icon">Location</div>
-          <div>&nbsp;123 High Street, Oldham, OL1</div>
-        </div>
-        <div className="info-item">
-          <div className="icon">Hours</div>
-          <div>Mon-Fri: 8:30am - 5:30pm</div>
-        </div>
-        <div className="info-item">
-          <div className="icon">Phone</div>
-          <div>0161 620 0808</div>
-        </div>
-        <div className="info-item">
-          <div className="icon">P</div>
-          <div>Free Patient Parking</div>
-        </div>
-      </div>
 
       {/* TREATMENTS */}
       <section className="treatments">
@@ -644,57 +594,65 @@ export default function Home() {
           <div className="treatment-grid">
             <AnimatedElement>
               <div className="treatment-card">
-                <img src="/images/Braces.jpg" alt="Fixed Braces" className="treatment-bg" />
-                <div className="treatment-overlay"></div>
+                <div className="treatment-img-wrap">
+                  <img src="/images/Braces.jpg" alt="Fixed Braces" className="treatment-bg" />
+                  <div className="treatment-overlay"></div>
+                </div>
                 <div className="treatment-content">
                   <h3>Fixed Braces</h3>
                   <p>
                     Proven, effective treatment for precise tooth alignment using
                     modern bracket systems.
                   </p>
-                  <span className="learn-more">Learn More &rarr;</span>
+                  <span className="learn-more">Braces &rarr;</span>
                 </div>
               </div>
             </AnimatedElement>
             <AnimatedElement>
               <div className="treatment-card">
-                <img src="/images/Invisalign.jpg" alt="Clear Aligners" className="treatment-bg" />
-                <div className="treatment-overlay"></div>
+                <div className="treatment-img-wrap">
+                  <img src="/images/Invisalign.jpg" alt="Clear Aligners" className="treatment-bg" />
+                  <div className="treatment-overlay"></div>
+                </div>
                 <div className="treatment-content">
                   <h3>Clear Aligners</h3>
                   <p>
                     Three advanced aligner systems for discreet, comfortable teeth
                     straightening.
                   </p>
-                  <span className="learn-more">Learn More &rarr;</span>
+                  <span className="learn-more">Aligners &rarr;</span>
                 </div>
               </div>
             </AnimatedElement>
             <AnimatedElement>
               <div className="treatment-card">
-                <img src="/images/child.jpg" alt="Children and Teens" className="treatment-bg" />
-                <div className="treatment-overlay"></div>
+                <div className="treatment-img-wrap">
+                  <img src="/images/child.jpg" alt="Children and Teens" className="treatment-bg" />
+                  <div className="treatment-overlay"></div>
+                </div>
                 <div className="treatment-content">
-                  <h3>Children & Teens</h3>
+                  <h3>Early Orthodontics</h3>
                   <p>
                     Early assessment and specialist orthodontics in a friendly,
                     relaxed environment.
                   </p>
-                  <span className="learn-more">Learn More &rarr;</span>
+                  <span className="learn-more">Children &rarr;</span>
                 </div>
               </div>
             </AnimatedElement>
             <AnimatedElement>
               <div className="treatment-card">
-                <img src="/images/Adult.jpg" alt="Adult Orthodontics" className="treatment-bg" />
-                <div className="treatment-overlay"></div>
+                <div className="treatment-img-wrap">
+                  <img src="/images/Adult.jpg" alt="Adult Orthodontics" className="treatment-bg" />
+                  <div className="treatment-overlay"></div>
+                </div>
                 <div className="treatment-content">
                   <h3>Adult Orthodontics</h3>
                   <p>
                     Discreet options for adults including invisible aligners and
                     lingual braces.
                   </p>
-                  <span className="learn-more">Learn More &rarr;</span>
+                  <span className="learn-more">Adults &rarr;</span>
                 </div>
               </div>
             </AnimatedElement>
@@ -719,7 +677,7 @@ export default function Home() {
         <div className="container">
           <div className="section-header">
             <h2 className="section-title">
-              Why Choose Oldham Orthodontics
+              Why Choose Oldham Orthodontics?
             </h2>
           </div>
           <div className="why-grid">
@@ -796,6 +754,9 @@ export default function Home() {
                 </p>
               </div>
             </AnimatedElement>
+          </div>
+          <div style={{ textAlign: "center", marginTop: "40px" }}>
+            <a href="#" className="btn btn-accent">About Us</a>
           </div>
         </div>
       </section>
@@ -946,7 +907,7 @@ export default function Home() {
         />
         <div className="container">
           <div className="section-header">
-            <div className="section-label">Smile Gallery</div>
+            <div className="section-label">Patient Results</div>
             <h2 className="section-title">Real Results, Real Smiles</h2>
             <p className="section-desc">
               See the transformations we&apos;ve achieved for patients just like
@@ -964,6 +925,9 @@ export default function Home() {
               <BeforeAfterSlider label="Teen Treatment" />
             </AnimatedElement>
           </div>
+          <div style={{ textAlign: "center", marginTop: "40px" }}>
+            <a href="#" className="btn btn-accent">Our Results</a>
+          </div>
         </div>
       </section>
 
@@ -971,20 +935,49 @@ export default function Home() {
       <section className="cost-finance">
         <div className="cost-finance-container">
           <div className="cost-finance-content">
-            <div className="cost-finance-label">COST AND FINANCE</div>
+            <div className="section-label">Costs</div>
             <h2 className="cost-finance-title">
-              <span className="cost-finance-line1">Flexible Payment Plans</span>
-              <span className="cost-finance-line2">To Suit Every Budget</span>
+              Transparent Fees &amp; <span style={{ color: "var(--coral)" }}>Flexible Payments</span>
             </h2>
-            <p className="cost-finance-desc">
-              Our private treatment options are designed to cater for all, ensuring
-              your smile transformation is nothing short of magical. Enjoy competitive
-              treatment prices and flexible payment options to make braces accessible
-              to everyone.
-            </p>
-            <a href="#" className="btn btn-accent">
-              See Our Treatment Cost
-            </a>
+            <ul className="cost-finance-list">
+              <li>
+                <span className="cost-check">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
+                </span>
+                Bespoke, all-inclusive pricing plans
+              </li>
+              <li>
+                <span className="cost-check">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
+                </span>
+                0% Interest payment options (0% APR)
+              </li>
+              <li>
+                <span className="cost-check">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
+                </span>
+                Initial assessment with digital simulation
+              </li>
+              <li>
+                <span className="cost-check">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
+                </span>
+                Family &amp; sibling discounts available
+              </li>
+            </ul>
+            <div className="cost-price-card">
+              <div className="cost-price-left">
+                <div className="cost-price-label">Start from only</div>
+                <div className="cost-price-amount">£50 <span>/week</span></div>
+              </div>
+              <div className="cost-price-right">
+                <div className="cost-price-heading">Spread the cost</div>
+                <div className="cost-price-desc">With our interest-free finance plans.</div>
+              </div>
+            </div>
+            <div style={{ textAlign: "center", marginTop: "32px" }}>
+              <a href="#" className="btn btn-accent">Costs</a>
+            </div>
           </div>
           <div className="cost-finance-image">
             <img src="/images/Cost.jpg" alt="Flexible payment plans" />
@@ -1016,9 +1009,6 @@ export default function Home() {
             <a href="#" className="btn btn-accent">
               Book Your Free Consultation
             </a>
-            <a href="tel:01616200808" className="btn btn-white">
-              Call 0161 620 0808
-            </a>
           </div>
         </div>
       </section>
@@ -1027,15 +1017,12 @@ export default function Home() {
       <section className="visit-section">
         <div className="visit-container">
           <div className="visit-info">
-            <h2 className="visit-title">Visit Us</h2>
+            <h2 className="visit-title">Get In Touch <span style={{ color: "var(--coral)" }}>With Us</span></h2>
             <p className="visit-desc">
-              We&apos;re conveniently located in Oldham with free patient parking.
-              Book a consultation and start your smile journey today.
+              We&apos;re conveniently located in Oldham with free patient parking. Book a consultation and start your smile journey today.
             </p>
 
             <div className="visit-details">
-              <h3 className="location-title">Oldham Orthodontics</h3>
-
               <div className="visit-item">
                 <div className="visit-icon">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -1044,8 +1031,9 @@ export default function Home() {
                   </svg>
                 </div>
                 <div className="visit-text">
-                  <p>221 Hollins Road,</p>
-                  <p>Oldham OL8 3AA</p>
+                  <p><strong>Oldham Orthodontics</strong></p>
+                  <p>221 Hollins Road, Oldham</p>
+                  <p>OL8 3AA</p>
                 </div>
               </div>
 
@@ -1056,7 +1044,7 @@ export default function Home() {
                   </svg>
                 </div>
                 <div className="visit-text">
-                  <a href="tel:01616220987">0161 622 0987</a>
+                  <a href="tel:01616220987"><strong>0161 622 0987</strong></a>
                 </div>
               </div>
 
@@ -1068,52 +1056,49 @@ export default function Home() {
                   </svg>
                 </div>
                 <div className="visit-text">
-                  <p className="hours-label">Opening Times</p>
+                  <p><strong>Opening Times</strong></p>
                 </div>
               </div>
 
               <div className="hours-grid">
                 <div className="hours-row">
                   <span>Monday</span>
-                  <span>9:00am - 5:00pm</span>
+                  <span>9am – 5pm</span>
                 </div>
                 <div className="hours-row">
                   <span>Tuesday</span>
-                  <span>9:00am - 6:00pm</span>
+                  <span>9am – 6pm</span>
                 </div>
                 <div className="hours-row">
                   <span>Wednesday</span>
-                  <span>9:00am - 5:00pm</span>
+                  <span>9am – 5pm</span>
                 </div>
                 <div className="hours-row">
                   <span>Thursday</span>
-                  <span>9:00am - 5:00pm</span>
+                  <span>9am – 5pm</span>
                 </div>
                 <div className="hours-row">
                   <span>Friday</span>
-                  <span>9:00am - 5:00pm</span>
+                  <span>9am – 5pm</span>
                 </div>
                 <div className="hours-row">
                   <span>Saturday</span>
-                  <span>9:00am - 2:00pm*</span>
+                  <span>Closed</span>
                 </div>
                 <div className="hours-row">
                   <span>Sunday</span>
                   <span>Closed</span>
                 </div>
               </div>
-              <p className="hours-note">*Alternate Saturdays by appointment only</p>
 
               <a
                 href="https://www.google.com/maps/search/?api=1&query=221+Hollins+Road+Oldham+OL8+3AA"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="google-maps-link"
+                className="btn btn-accent"
+                style={{ marginTop: "16px" }}
               >
-                <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
-                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                </svg>
-                Open in Google Maps
+                Get Directions &rarr;
               </a>
             </div>
           </div>
@@ -1138,24 +1123,7 @@ export default function Home() {
         <div className="minimal-footer-container">
           <div className="minimal-footer-top">
             <div className="minimal-footer-logo">
-              <svg className="logo-mark" viewBox="0 0 50 50" style={{ width: 50, height: 50 }}>
-                <path
-                  d="M25 5 C35 5 45 15 42 28 C39 41 28 45 18 40 C8 35 2 22 10 12 C15 6 20 5 25 5Z"
-                  fill="none"
-                  stroke="#2e6da0"
-                  strokeWidth="2.5"
-                />
-                <path
-                  d="M20 12 C30 8 40 18 35 30 C32 36 24 38 18 34"
-                  fill="none"
-                  stroke="#5ba4cf"
-                  strokeWidth="2.5"
-                />
-              </svg>
-              <div className="logo-text">
-                <span className="name">Oldham</span>
-                <span className="sub">Orthodontics</span>
-              </div>
+              <img src="/images/oldham-logo.png" alt="Oldham Orthodontics" className="footer-logo-img" />
             </div>
             <div className="minimal-footer-social">
               <a href="#" aria-label="Instagram">
