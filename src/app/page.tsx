@@ -88,18 +88,31 @@ const StarIcon = () => (
 );
 
 const LogoMark = () => (
-  <svg className="logo-mark" viewBox="0 0 50 50">
+  <svg className="logo-mark" viewBox="0 0 100 100">
+    {/* Dark navy outer swoosh - top right to bottom */}
     <path
-      d="M25 5 C35 5 45 15 42 28 C39 41 28 45 18 40 C8 35 2 22 10 12 C15 6 20 5 25 5Z"
-      fill="none"
-      stroke="#2e6da0"
-      strokeWidth="2.5"
+      d="M52 2 C72 0 92 16 96 38 C100 58 88 78 70 88 C65 91 58 90 62 85 C78 74 86 54 82 36 C78 18 64 6 52 2Z"
+      fill="#1a2a5c"
     />
+    {/* Medium blue swoosh - bottom to left */}
     <path
-      d="M20 12 C30 8 40 18 35 30 C32 36 24 38 18 34"
-      fill="none"
-      stroke="#5ba4cf"
-      strokeWidth="2.5"
+      d="M65 94 C50 102 28 100 14 86 C0 72 -2 48 8 30 C11 25 16 22 16 28 C10 46 12 66 24 80 C36 92 52 96 65 94Z"
+      fill="#2e6da0"
+    />
+    {/* Blue swoosh - left to top */}
+    <path
+      d="M10 24 C18 8 38 -2 58 2 C68 4 74 10 68 14 C52 8 34 10 22 22 C12 34 10 50 14 62 C16 66 12 68 8 62 C2 50 4 36 10 24Z"
+      fill="#3d8cc4"
+    />
+    {/* Light blue inner swoosh */}
+    <path
+      d="M46 8 C60 4 76 12 84 28 C88 36 86 42 80 38 C72 26 60 16 46 16 C34 16 24 24 20 36 C18 40 14 40 14 34 C16 20 30 10 46 8Z"
+      fill="#5ba4cf"
+    />
+    {/* Lightest swoosh accent */}
+    <path
+      d="M80 68 C72 82 56 92 40 90 C32 88 28 84 34 82 C48 86 62 80 72 68 C78 58 80 46 76 36 C74 32 78 30 80 36 C84 48 84 58 80 68Z"
+      fill="#7dbde8"
     />
   </svg>
 );
@@ -192,20 +205,7 @@ const FloatingLogo = ({
   style?: React.CSSProperties;
 }) => (
   <div className={`floating-logo ${className}`} style={style}>
-    <svg viewBox="0 0 50 50">
-      <path
-        d="M25 5 C35 5 45 15 42 28 C39 41 28 45 18 40 C8 35 2 22 10 12 C15 6 20 5 25 5Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      />
-      <path
-        d="M20 12 C30 8 40 18 35 30 C32 36 24 38 18 34"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      />
-    </svg>
+    <img src="/images/oldham-circle-watermark.png" alt="" />
   </div>
 );
 
@@ -442,6 +442,8 @@ function TeamSection() {
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [topBarHeight, setTopBarHeight] = useState(40);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const topBarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -466,56 +468,116 @@ export default function Home() {
 
   return (
     <>
-      {/* TOP BAR */}
-      <div className="top-bar" ref={topBarRef}>
-        <div className="top-bar-inner" style={{ justifyContent: "flex-end" }}>
-          <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
-            <a href="#" className="top-bar-link" style={{ fontWeight: 700 }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                <circle cx="9" cy="7" r="4" />
-                <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-              </svg>
-              Dentist Referrals
-            </a>
-            <a href="tel:01616200808" className="top-bar-phone">
-              <PhoneIcon /> 0161 620 0808
-            </a>
+      {/* NAV WRAPPER */}
+      <div className="nav-wrapper" ref={topBarRef}>
+        {/* TOP BAR */}
+        <div className="top-bar">
+          <div className="top-bar-inner" style={{ justifyContent: "flex-end" }}>
+            <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
+              <a href="#" className="top-bar-link" style={{ fontWeight: 700 }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg>
+                Dentist Referrals
+              </a>
+              <a href="tel:01616200808" className="top-bar-phone">
+                <PhoneIcon /> 0161 620 0808
+              </a>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* HEADER */}
-      <header
-        className={`header ${scrolled ? "scrolled" : ""}`}
-        style={{ top: `${topBarHeight}px` }}
-      >
-        <div className="header-inner">
-          <a href="#" className="logo">
-            <LogoMark />
-            <div className="logo-text">
-              <span className="name">Oldham</span>
-              <span className="sub">Orthodontics</span>
-            </div>
+        {/* HEADER */}
+        <header
+          className={`header ${scrolled ? "scrolled" : ""}`}
+        >
+          <div className="header-inner">
+          <a href="/" className="mobile-logo">
+            <img src="/images/oldham-logo.png" alt="Oldham Orthodontics" className="mobile-logo-img" />
           </a>
+          <div className="logo-spacer"></div>
           <nav>
             {menuItems.map((item, index) => (
               <NavItem key={index} item={item} />
             ))}
           </nav>
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <a href="#" className="btn btn-primary">
+          <div className="header-right desktop-only">
+            <a href="#" className="btn btn-accent">
               Free Consultation
             </a>
           </div>
-          <div className="mobile-toggle">
-            <span></span>
-            <span></span>
-            <span></span>
+          <div className="header-right-mobile">
+            <a href="tel:01616220987" className="mobile-call">
+              <PhoneIcon /> Call Us
+            </a>
+            <div className={`mobile-toggle ${mobileMenuOpen ? "open" : ""}`} onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
           </div>
         </div>
       </header>
+        <a href="#" className="nav-logo">
+          <img src="/images/oldham-logo.png" alt="Oldham Orthodontics" className="header-logo-img" />
+        </a>
+      </div>
+
+      {/* MOBILE MENU */}
+      <div className={`mobile-menu ${mobileMenuOpen ? "open" : ""}`}>
+        <div className="mobile-menu-inner">
+          {menuItems.map((item, index) => (
+            <div key={index} className="mobile-menu-item">
+              {item.submenu ? (
+                <>
+                  <div
+                    className={`mobile-menu-link has-children ${mobileExpanded === item.label ? "expanded" : ""}`}
+                    onClick={() => setMobileExpanded(mobileExpanded === item.label ? null : item.label)}
+                  >
+                    {item.label}
+                    <svg className="mobile-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                  </div>
+                  <div className={`mobile-submenu ${mobileExpanded === item.label ? "open" : ""}`}>
+                    {item.submenu.map((sub, subIndex) => (
+                      "submenu" in sub && sub.submenu ? (
+                        <div key={subIndex} className="mobile-submenu-group">
+                          <a href={sub.href} className="mobile-submenu-heading">{sub.label}</a>
+                          {sub.submenu.map((child: {label: string; href: string}, childIndex: number) => (
+                            <a key={childIndex} href={child.href} className="mobile-submenu-child" onClick={() => setMobileMenuOpen(false)}>
+                              {child.label}
+                            </a>
+                          ))}
+                        </div>
+                      ) : (
+                        <a key={subIndex} href={sub.href} className="mobile-submenu-link" onClick={() => setMobileMenuOpen(false)}>
+                          {sub.label}
+                        </a>
+                      )
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <a href={item.href} className="mobile-menu-link" onClick={() => setMobileMenuOpen(false)}>
+                  {item.label}
+                </a>
+              )}
+            </div>
+          ))}
+          <div className="mobile-menu-footer">
+            <a href="tel:01616220987" className="mobile-menu-phone">
+              <PhoneIcon /> 0161 622 0987
+            </a>
+            <a href="#" className="btn btn-accent mobile-menu-cta" onClick={() => setMobileMenuOpen(false)}>
+              Book Free Consultation
+            </a>
+          </div>
+        </div>
+      </div>
 
       {/* HERO */}
       <section className="hero">
@@ -570,7 +632,15 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Hero to Treatments curve */}
+      <div className="section-curve-divider" style={{ background: "transparent", position: "relative", marginTop: "-140px", zIndex: 10 }}>
+        <svg viewBox="0 0 1440 140" preserveAspectRatio="none">
+          <path d="M0,80 C200,140 400,100 720,120 C1000,138 1200,90 1440,110 L1440,140 L0,140 Z" fill="#fff" />
+        </svg>
+      </div>
+
       {/* TREATMENTS */}
+
       <section className="treatments">
         <FloatingLogo
           className="lg drift blue logo-decoration-1"
@@ -661,9 +731,15 @@ export default function Home() {
       </section>
 
       {/* WHY CHOOSE */}
+      <div className="section-curve-divider" style={{ background: "#fff" }}>
+        <svg viewBox="0 0 1440 140" preserveAspectRatio="none">
+          <path d="M0,0 L0,60 C180,100 360,120 540,90 C720,60 900,110 1080,100 C1200,94 1340,70 1440,80 L1440,0 Z" fill="#fff" />
+          <path d="M0,60 C180,100 360,120 540,90 C720,60 900,110 1080,100 C1200,94 1340,70 1440,80 L1440,140 L0,140 Z" fill="#1a1a3e" />
+        </svg>
+      </div>
       <section className="why-choose">
         <FloatingLogo
-          className="xl rotate light"
+          className="xl drift light"
           style={{ top: "-10%", right: "-5%" }}
         />
         <FloatingLogo
@@ -762,6 +838,12 @@ export default function Home() {
       </section>
 
       {/* SMILE JOURNEY */}
+      <div className="section-curve-divider" style={{ background: "#1a1a3e" }}>
+        <svg viewBox="0 0 1440 140" preserveAspectRatio="none">
+          <path d="M0,0 L0,70 C240,110 480,40 720,70 C960,100 1140,120 1320,90 C1380,82 1420,75 1440,70 L1440,0 Z" fill="#1a1a3e" />
+          <path d="M0,70 C240,110 480,40 720,70 C960,100 1140,120 1320,90 C1380,82 1420,75 1440,70 L1440,140 L0,140 Z" fill="#faf7f4" />
+        </svg>
+      </div>
       <section className="journey">
         <FloatingLogo
           className="lg subtle-drift coral"
@@ -832,13 +914,29 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Journey to Team curve */}
+      <div className="section-curve-divider" style={{ background: "#faf7f4" }}>
+        <svg viewBox="0 0 1440 140" preserveAspectRatio="none">
+          <path d="M0,0 L0,65 C200,100 450,50 720,75 C990,100 1200,110 1440,70 L1440,0 Z" fill="#faf7f4" />
+          <path d="M0,65 C200,100 450,50 720,75 C990,100 1200,110 1440,70 L1440,140 L0,140 Z" fill="#f8f8f8" />
+        </svg>
+      </div>
+
       {/* TEAM */}
       <TeamSection />
+
+      {/* Team to Reviews curve */}
+      <div className="section-curve-divider" style={{ background: "#f8f8f8" }}>
+        <svg viewBox="0 0 1440 140" preserveAspectRatio="none">
+          <path d="M0,0 L0,55 C300,100 600,30 900,70 C1100,95 1300,110 1440,60 L1440,0 Z" fill="#f8f8f8" />
+          <path d="M0,55 C300,100 600,30 900,70 C1100,95 1300,110 1440,60 L1440,140 L0,140 Z" fill="#faf7f4" />
+        </svg>
+      </div>
 
       {/* REVIEWS */}
       <section className="reviews">
         <FloatingLogo
-          className="xl rotate coral"
+          className="xl drift coral"
           style={{ top: "-10%", left: "-5%", opacity: 0.03 }}
         />
         <FloatingLogo
@@ -895,6 +993,14 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Reviews to Gallery curve */}
+      <div className="section-curve-divider" style={{ background: "#faf7f4" }}>
+        <svg viewBox="0 0 1440 140" preserveAspectRatio="none">
+          <path d="M0,0 L0,70 C180,110 420,40 660,65 C900,90 1100,120 1440,75 L1440,0 Z" fill="#faf7f4" />
+          <path d="M0,70 C180,110 420,40 660,65 C900,90 1100,120 1440,75 L1440,140 L0,140 Z" fill="#f5f2ef" />
+        </svg>
+      </div>
+
       {/* GALLERY */}
       <section className="gallery">
         <FloatingLogo
@@ -930,6 +1036,14 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Gallery to Cost curve */}
+      <div className="section-curve-divider" style={{ background: "#f5f2ef" }}>
+        <svg viewBox="0 0 1440 140" preserveAspectRatio="none">
+          <path d="M0,0 L0,60 C250,95 500,110 750,80 C1000,50 1200,90 1440,70 L1440,0 Z" fill="#f5f2ef" />
+          <path d="M0,60 C250,95 500,110 750,80 C1000,50 1200,90 1440,70 L1440,140 L0,140 Z" fill="#faf7f4" />
+        </svg>
+      </div>
 
       {/* COST AND FINANCE */}
       <section className="cost-finance">
@@ -986,9 +1100,14 @@ export default function Home() {
       </section>
 
       {/* CTA PANEL */}
+      <div className="section-curve-divider" style={{ background: "transparent", marginBottom: "-140px", position: "relative", zIndex: 10 }}>
+        <svg viewBox="0 0 1440 140" preserveAspectRatio="none">
+          <path d="M0,0 L0,50 C120,80 300,110 500,85 C700,60 850,100 1050,110 C1200,117 1350,90 1440,65 L1440,0 Z" fill="#faf7f4" />
+        </svg>
+      </div>
       <section className="cta-panel">
         <FloatingLogo
-          className="xl rotate light"
+          className="xl drift light"
           style={{ top: "-20%", left: "5%" }}
         />
         <FloatingLogo
@@ -1012,6 +1131,13 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* CTA to Visit curve */}
+      <div style={{ background: "transparent", marginTop: "-180px", position: "relative", zIndex: 10, height: "180px" }}>
+        <svg viewBox="0 0 1440 180" preserveAspectRatio="none" style={{ display: "block", width: "100%", height: "100%" }}>
+          <path d="M0,80 C160,120 380,140 600,110 C820,80 1050,125 1260,135 C1360,140 1420,125 1440,115 L1440,180 L0,180 Z" fill="#faf7f4" />
+        </svg>
+      </div>
 
       {/* VISIT US / MAP */}
       <section className="visit-section">
@@ -1123,7 +1249,7 @@ export default function Home() {
         <div className="minimal-footer-container">
           <div className="minimal-footer-top">
             <div className="minimal-footer-logo">
-              <img src="/images/oldham-logo.png" alt="Oldham Orthodontics" className="footer-logo-img" />
+              <img src="/images/tio-logo.png" alt="Oldham Orthodontics" className="footer-logo-img" />
             </div>
             <div className="minimal-footer-social">
               <a href="#" aria-label="Instagram">
@@ -1163,6 +1289,11 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* Floating mobile CTA */}
+      <div className={`mobile-floating-cta ${scrolled ? "visible" : ""}`}>
+        <a href="#" className="btn btn-accent">Free Consultation</a>
+      </div>
     </>
   );
 }

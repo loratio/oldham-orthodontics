@@ -846,11 +846,7 @@ export default function TreatmentsPage() {
         <div className="minimal-footer-container">
           <div className="minimal-footer-top">
             <div className="minimal-footer-logo">
-              <LogoMark />
-              <div className="logo-text">
-                <span className="name">Oldham</span>
-                <span className="sub">Orthodontics</span>
-              </div>
+              <img src="/images/tio-logo.png" alt="Oldham Orthodontics" className="footer-logo-img" />
             </div>
             <div className="minimal-footer-social">
               <a href="#" aria-label="Instagram">

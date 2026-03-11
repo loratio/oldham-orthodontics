@@ -11,6 +11,9 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: "Oldham Orthodontics – Specialist Orthodontic Care in Oldham",
   description: "Modern braces and advanced aligner treatments delivered by experienced, trusted orthodontists in a warm and welcoming practice in Oldham.",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
