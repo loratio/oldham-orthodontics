@@ -43,6 +43,48 @@ a {
   color: inherit;
 }
 
+/* ===== INLINE BODY LINKS =====
+   Visible underline + accent colour for links embedded in body copy.
+   Excludes buttons and named link components, which keep their own styles. */
+.content-text p a:not(.btn):not(.content-link),
+.content-text ul li a:not(.btn):not(.content-link),
+.faq-answer a:not(.btn):not(.content-link),
+.benefits-header p a:not(.btn):not(.content-link),
+.section-desc a:not(.btn):not(.content-link),
+.inner-hero-text p a:not(.btn):not(.content-link) {
+  color: var(--blue);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color 0.2s;
+}
+
+.content-text p a:not(.btn):not(.content-link):hover,
+.content-text ul li a:not(.btn):not(.content-link):hover,
+.faq-answer a:not(.btn):not(.content-link):hover,
+.benefits-header p a:not(.btn):not(.content-link):hover,
+.section-desc a:not(.btn):not(.content-link):hover,
+.inner-hero-text p a:not(.btn):not(.content-link):hover {
+  color: var(--coral);
+}
+
+/* Dark-section variant: links sit on navy/blue gradient or solid navy */
+.feature-banner-content p a:not(.btn),
+.specialist-text p a:not(.btn),
+.cta-panel p a:not(.btn) {
+  color: var(--coral-light);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color 0.2s;
+}
+
+.feature-banner-content p a:not(.btn):hover,
+.specialist-text p a:not(.btn):hover,
+.cta-panel p a:not(.btn):hover {
+  color: #fff;
+}
+
 img {
   max-width: 100%;
 }
@@ -171,6 +213,7 @@ nav a:hover::after {
 /* Navigation dropdowns */
 .nav-item {
   position: relative;
+  padding: 12px 0;
 }
 
 .nav-link {
@@ -218,10 +261,10 @@ nav a:hover::after {
 .dropdown::before {
   content: '';
   position: absolute;
-  top: -10px;
+  top: -20px;
   left: 0;
   right: 0;
-  height: 10px;
+  height: 20px;
 }
 
 .dropdown-item-wrapper {
@@ -301,10 +344,10 @@ nav a:hover::after {
 .mega-menu::before {
   content: '';
   position: absolute;
-  top: -10px;
+  top: -20px;
   left: 0;
   right: 0;
-  height: 10px;
+  height: 20px;
 }
 
 .mega-menu-column {
@@ -848,14 +891,54 @@ section {
   height: 140px;
   position: relative;
   z-index: 5;
-  margin-top: -1px;
-  margin-bottom: -1px;
+  margin-top: -70px;
+  margin-bottom: -70px;
 }
 
 .section-curve-divider svg {
   display: block;
   width: 100%;
   height: 100%;
+}
+
+.curve-tight {
+  margin-top: -100px;
+  margin-bottom: -100px;
+}
+
+.curve-into-cta {
+  margin-bottom: -140px;
+  z-index: 10;
+}
+
+.curve-out-of-cta {
+  background: transparent;
+  margin-top: -180px;
+  position: relative;
+  z-index: 10;
+  height: 180px;
+}
+
+@media (max-width: 768px) {
+  .section-curve-divider {
+    height: 80px;
+    margin-top: -40px;
+    margin-bottom: -40px;
+  }
+
+  .curve-tight {
+    margin-top: -60px;
+    margin-bottom: -60px;
+  }
+
+  .curve-into-cta {
+    margin-bottom: -80px;
+  }
+
+  .curve-out-of-cta {
+    height: 100px;
+    margin-top: -100px;
+  }
 }
 
 /* ===== TREATMENTS ===== */
@@ -867,6 +950,27 @@ section {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
+}
+
+.treatment-grid.treatment-grid--three {
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 1080px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.treatment-grid.treatment-grid--two {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 768px) {
+  .treatment-grid.treatment-grid--three,
+  .treatment-grid.treatment-grid--two {
+    grid-template-columns: 1fr;
+  }
 }
 
 .treatment-card {
@@ -2573,7 +2677,7 @@ section {
     grid-template-columns: 1fr;
     gap: 40px;
     text-align: center;
-    padding: 130px 24px 60px;
+    padding: 130px 24px 100px;
   }
   .hero-content {
     max-width: 100%;
@@ -2615,6 +2719,9 @@ section {
   }
   .footer-grid {
     grid-template-columns: 1fr;
+  }
+  .cta-panel {
+    padding: 120px 0 160px;
   }
   .cta-panel h2 {
     font-size: 28px;

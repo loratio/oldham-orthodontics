@@ -1,0 +1,274 @@
+/* ===== BOOKING HERO ===== */
+.booking-hero {
+  background: var(--warm-bg);
+  padding: 160px 0 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.booking-hero::before {
+  content: '';
+  position: absolute;
+  top: -120px;
+  right: -120px;
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(circle, rgba(91, 164, 207, 0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.booking-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -120px;
+  left: -120px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(198, 163, 85, 0.10) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.booking-hero-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.booking-hero-content {
+  max-width: 540px;
+}
+
+.booking-hero-label {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--blue);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.booking-hero h1 {
+  font-size: 44px;
+  font-weight: 800;
+  color: var(--navy);
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  margin-bottom: 20px;
+}
+
+.booking-hero-content > p {
+  font-size: 16px;
+  color: var(--text-light);
+  line-height: 1.7;
+  margin-bottom: 32px;
+  max-width: 480px;
+}
+
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 440px;
+}
+
+.booking-form input {
+  width: 100%;
+  padding: 16px 20px;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--text);
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.booking-form input::placeholder {
+  color: var(--text-light);
+}
+
+.booking-form input:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(46, 109, 160, 0.12);
+}
+
+.booking-submit {
+  margin-top: 6px;
+  align-self: flex-start;
+  padding: 14px 32px;
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+.booking-privacy {
+  font-size: 12px;
+  color: var(--text-light);
+  line-height: 1.55;
+  margin-top: 6px;
+}
+
+.booking-privacy a {
+  color: var(--blue);
+  text-decoration: underline;
+}
+
+.booking-privacy a:hover {
+  color: var(--navy);
+}
+
+.booking-hero-image {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+  aspect-ratio: 4 / 5;
+}
+
+.booking-hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 1024px) {
+  .booking-hero-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .booking-hero-image {
+    max-width: 520px;
+    aspect-ratio: 16 / 11;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .booking-hero {
+    padding: 130px 0 60px;
+  }
+
+  .booking-hero h1 {
+    font-size: 32px;
+  }
+
+  .booking-form {
+    max-width: 100%;
+  }
+
+  .booking-submit {
+    align-self: stretch;
+  }
+}
+
+/* ===== APPOINTMENT STEPS ===== */
+.appointment-steps {
+  background: #fff;
+  padding: 90px 0;
+}
+
+.appointment-steps-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.appointment-steps h2 {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--navy);
+  letter-spacing: -0.3px;
+  margin-bottom: 16px;
+}
+
+.appointment-steps-intro {
+  font-size: 16px;
+  color: var(--text-light);
+  line-height: 1.7;
+  max-width: 720px;
+  margin-bottom: 56px;
+}
+
+.appointment-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  margin-bottom: 48px;
+}
+
+.appointment-step {
+  display: flex;
+  flex-direction: column;
+}
+
+.appointment-step-icon {
+  width: 56px;
+  height: 56px;
+  color: var(--coral);
+  margin-bottom: 20px;
+}
+
+.appointment-step-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.appointment-step h4 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 10px;
+  letter-spacing: 0.2px;
+}
+
+.appointment-step p {
+  font-size: 14px;
+  color: var(--text-light);
+  line-height: 1.65;
+}
+
+.appointment-steps-cta {
+  align-self: flex-start;
+  padding: 14px 32px;
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 1024px) {
+  .appointment-steps-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 36px;
+  }
+}
+
+@media (max-width: 768px) {
+  .appointment-steps {
+    padding: 60px 0;
+  }
+
+  .appointment-steps h2 {
+    font-size: 28px;
+  }
+
+  .appointment-steps-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin-bottom: 36px;
+  }
+
+  .appointment-steps-cta {
+    align-self: stretch;
+    text-align: center;
+  }
+}

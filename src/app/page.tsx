@@ -1,200 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-
-// Navigation menu data structure
-const menuItems = [
-  {
-    label: "Treatments",
-    href: "#",
-    submenu: [
-      {
-        label: "Clear Aligners",
-        href: "#",
-        submenu: [
-          { label: "Invisalign®", href: "#" },
-          { label: "Clarity™ Aligners", href: "#" },
-          { label: "ClearCorrect Aligners", href: "#" },
-        ],
-      },
-      {
-        label: "Braces",
-        href: "#",
-        submenu: [
-          { label: "Metal Braces", href: "#" },
-          { label: "Ceramic Braces", href: "#" },
-          { label: "Lingual Braces", href: "#" },
-        ],
-      },
-      {
-        label: "Treatment For",
-        href: "#",
-        submenu: [
-          { label: "Adults", href: "#" },
-          { label: "Teens", href: "#" },
-          { label: "Children", href: "#" },
-        ],
-      },
-      {
-        label: "Other Services",
-        href: "#",
-        submenu: [
-          { label: "Jaw Surgery", href: "#" },
-          { label: "Retainers", href: "#" },
-        ],
-      },
-    ],
-  },
-  {
-    label: "Costs",
-    href: "#",
-  },
-  {
-    label: "Results",
-    href: "#",
-  },
-  {
-    label: "About Us",
-    href: "#",
-    submenu: [
-      { label: "Meet Our Team", href: "#" },
-      { label: "Our Practice", href: "#" },
-    ],
-  },
-  {
-    label: "Contact",
-    href: "#",
-  },
-];
-
-// SVG Icons as components
-const PhoneIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
-  </svg>
-);
-
-const ClockIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <circle cx="12" cy="12" r="10" />
-    <polyline points="12 6 12 12 16 14" />
-  </svg>
-);
-
-const StarIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-  </svg>
-);
-
-const LogoMark = () => (
-  <svg className="logo-mark" viewBox="0 0 100 100">
-    {/* Dark navy outer swoosh - top right to bottom */}
-    <path
-      d="M52 2 C72 0 92 16 96 38 C100 58 88 78 70 88 C65 91 58 90 62 85 C78 74 86 54 82 36 C78 18 64 6 52 2Z"
-      fill="#1a2a5c"
-    />
-    {/* Medium blue swoosh - bottom to left */}
-    <path
-      d="M65 94 C50 102 28 100 14 86 C0 72 -2 48 8 30 C11 25 16 22 16 28 C10 46 12 66 24 80 C36 92 52 96 65 94Z"
-      fill="#2e6da0"
-    />
-    {/* Blue swoosh - left to top */}
-    <path
-      d="M10 24 C18 8 38 -2 58 2 C68 4 74 10 68 14 C52 8 34 10 22 22 C12 34 10 50 14 62 C16 66 12 68 8 62 C2 50 4 36 10 24Z"
-      fill="#3d8cc4"
-    />
-    {/* Light blue inner swoosh */}
-    <path
-      d="M46 8 C60 4 76 12 84 28 C88 36 86 42 80 38 C72 26 60 16 46 16 C34 16 24 24 20 36 C18 40 14 40 14 34 C16 20 30 10 46 8Z"
-      fill="#5ba4cf"
-    />
-    {/* Lightest swoosh accent */}
-    <path
-      d="M80 68 C72 82 56 92 40 90 C32 88 28 84 34 82 C48 86 62 80 72 68 C78 58 80 46 76 36 C74 32 78 30 80 36 C84 48 84 58 80 68Z"
-      fill="#7dbde8"
-    />
-  </svg>
-);
-
-// Chevron icon for dropdowns
-const ChevronDown = () => (
-  <svg
-    width="10"
-    height="10"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <polyline points="6 9 12 15 18 9" />
-  </svg>
-);
-
-// Navigation item with dropdown
-type MenuItem = {
-  label: string;
-  href: string;
-  submenu?: MenuItem[];
-};
-
-const NavItem = ({ item }: { item: MenuItem }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const hasMegaMenu = item.label === "Treatments" && item.submenu?.some(s => s.submenu);
-
-  const handleEnter = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setIsOpen(true);
-  };
-
-  const handleLeave = () => {
-    timeoutRef.current = setTimeout(() => setIsOpen(false), 150);
-  };
-
-  return (
-    <div
-      className={`nav-item${hasMegaMenu ? " has-mega" : ""}`}
-      onMouseEnter={handleEnter}
-      onMouseLeave={handleLeave}
-    >
-      <a href={item.href} className="nav-link">
-        {item.label}
-        {item.submenu && <ChevronDown />}
-      </a>
-      {item.submenu && isOpen && (
-        hasMegaMenu ? (
-          <div className="mega-menu" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
-            {item.submenu.map((category, index) => (
-              <div key={index} className="mega-menu-column">
-                <a href={category.href} className="mega-menu-heading">
-                  {category.label}
-                </a>
-                {category.submenu?.map((subItem, subIndex) => (
-                  <a key={subIndex} href={subItem.href} className="mega-menu-item">
-                    {subItem.label}
-                  </a>
-                ))}
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="dropdown" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
-            {item.submenu.map((subItem, index) => (
-              <div key={index} className="dropdown-item-wrapper">
-                <a href={subItem.href} className="dropdown-item">
-                  {subItem.label}
-                </a>
-              </div>
-            ))}
-          </div>
-        )
-      )}
-    </div>
-  );
-};
+import BeforeAfterSlider from "./components/BeforeAfterSlider";
 
 // Decorative floating logo for backgrounds
 const FloatingLogo = ({
@@ -245,86 +52,6 @@ function AnimatedElement({
       className={`animate-on-scroll ${isVisible ? "visible" : ""} ${className}`}
     >
       {children}
-    </div>
-  );
-}
-
-// Before/After Slider Component
-function BeforeAfterSlider({ label }: { label: string }) {
-  const [sliderPosition, setSliderPosition] = useState(50);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const isDragging = useRef(false);
-
-  const handleMove = (clientX: number) => {
-    if (!containerRef.current || !isDragging.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = clientX - rect.left;
-    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-    setSliderPosition(percentage);
-  };
-
-  const handleMouseDown = () => {
-    isDragging.current = true;
-  };
-
-  const handleMouseUp = () => {
-    isDragging.current = false;
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    handleMove(e.clientX);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    handleMove(e.touches[0].clientX);
-  };
-
-  useEffect(() => {
-    const handleGlobalMouseUp = () => {
-      isDragging.current = false;
-    };
-    window.addEventListener("mouseup", handleGlobalMouseUp);
-    window.addEventListener("touchend", handleGlobalMouseUp);
-    return () => {
-      window.removeEventListener("mouseup", handleGlobalMouseUp);
-      window.removeEventListener("touchend", handleGlobalMouseUp);
-    };
-  }, []);
-
-  return (
-    <div
-      ref={containerRef}
-      className="ba-slider"
-      onMouseMove={handleMouseMove}
-      onTouchMove={handleTouchMove}
-    >
-      {/* After image (full width, underneath) */}
-      <div className="ba-after">
-        <img src="/images/beforeafter.jpg" alt="After treatment" />
-      </div>
-
-      {/* Before image (clipped) */}
-      <div className="ba-before" style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}>
-        <img src="/images/beforeafter.jpg" alt="Before treatment" />
-      </div>
-
-      {/* Slider handle */}
-      <div
-        className="ba-handle"
-        style={{ left: `${sliderPosition}%` }}
-        onMouseDown={handleMouseDown}
-        onTouchStart={handleMouseDown}
-      >
-        <div className="ba-handle-line" />
-        <div className="ba-handle-circle">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <polyline points="9 6 3 12 9 18" />
-            <polyline points="15 6 21 12 15 18" />
-          </svg>
-        </div>
-      </div>
-
-      <div className="ba-label">{label}</div>
     </div>
   );
 }
@@ -386,7 +113,7 @@ function TeamSection() {
             <span className="team-title-line2">Dedicated To Exceptional Care</span>
           </h2>
           <p className="team-description">
-            With decades of combined experience, our specialist orthodontist team
+            With decades of combined experience, our Specialist Orthodontist team
             is here to help you achieve a straighter smile - whether you&apos;re
             considering aligners, braces, or other treatments. No matter your
             starting point or goals, you&apos;ll be in safe, trusted hands.
@@ -440,145 +167,8 @@ function TeamSection() {
 }
 
 export default function Home() {
-  const [scrolled, setScrolled] = useState(false);
-  const [topBarHeight, setTopBarHeight] = useState(40);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
-  const topBarRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const measure = () => {
-      if (topBarRef.current) {
-        setTopBarHeight(topBarRef.current.offsetHeight);
-      }
-    };
-    measure();
-    window.addEventListener("resize", measure);
-
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", measure);
-    };
-  }, []);
-
   return (
     <>
-      {/* NAV WRAPPER */}
-      <div className="nav-wrapper" ref={topBarRef}>
-        {/* TOP BAR */}
-        <div className="top-bar">
-          <div className="top-bar-inner" style={{ justifyContent: "flex-end" }}>
-            <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
-              <a href="#" className="top-bar-link" style={{ fontWeight: 700 }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                  <circle cx="9" cy="7" r="4" />
-                  <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                </svg>
-                Dentist Referrals
-              </a>
-              <a href="tel:01616200808" className="top-bar-phone">
-                <PhoneIcon /> 0161 620 0808
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* HEADER */}
-        <header
-          className={`header ${scrolled ? "scrolled" : ""}`}
-        >
-          <div className="header-inner">
-          <a href="/" className="mobile-logo">
-            <img src="/images/oldham-logo.png" alt="Oldham Orthodontics" className="mobile-logo-img" />
-          </a>
-          <div className="logo-spacer"></div>
-          <nav>
-            {menuItems.map((item, index) => (
-              <NavItem key={index} item={item} />
-            ))}
-          </nav>
-          <div className="header-right desktop-only">
-            <a href="#" className="btn btn-accent">
-              Free Consultation
-            </a>
-          </div>
-          <div className="header-right-mobile">
-            <a href="tel:01616220987" className="mobile-call">
-              <PhoneIcon /> Call Us
-            </a>
-            <div className={`mobile-toggle ${mobileMenuOpen ? "open" : ""}`} onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-          </div>
-        </div>
-      </header>
-        <a href="#" className="nav-logo">
-          <img src="/images/oldham-logo.png" alt="Oldham Orthodontics" className="header-logo-img" />
-        </a>
-      </div>
-
-      {/* MOBILE MENU */}
-      <div className={`mobile-menu ${mobileMenuOpen ? "open" : ""}`}>
-        <div className="mobile-menu-inner">
-          {menuItems.map((item, index) => (
-            <div key={index} className="mobile-menu-item">
-              {item.submenu ? (
-                <>
-                  <div
-                    className={`mobile-menu-link has-children ${mobileExpanded === item.label ? "expanded" : ""}`}
-                    onClick={() => setMobileExpanded(mobileExpanded === item.label ? null : item.label)}
-                  >
-                    {item.label}
-                    <svg className="mobile-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="6 9 12 15 18 9" />
-                    </svg>
-                  </div>
-                  <div className={`mobile-submenu ${mobileExpanded === item.label ? "open" : ""}`}>
-                    {item.submenu.map((sub, subIndex) => (
-                      "submenu" in sub && sub.submenu ? (
-                        <div key={subIndex} className="mobile-submenu-group">
-                          <a href={sub.href} className="mobile-submenu-heading">{sub.label}</a>
-                          {sub.submenu.map((child: {label: string; href: string}, childIndex: number) => (
-                            <a key={childIndex} href={child.href} className="mobile-submenu-child" onClick={() => setMobileMenuOpen(false)}>
-                              {child.label}
-                            </a>
-                          ))}
-                        </div>
-                      ) : (
-                        <a key={subIndex} href={sub.href} className="mobile-submenu-link" onClick={() => setMobileMenuOpen(false)}>
-                          {sub.label}
-                        </a>
-                      )
-                    ))}
-                  </div>
-                </>
-              ) : (
-                <a href={item.href} className="mobile-menu-link" onClick={() => setMobileMenuOpen(false)}>
-                  {item.label}
-                </a>
-              )}
-            </div>
-          ))}
-          <div className="mobile-menu-footer">
-            <a href="tel:01616220987" className="mobile-menu-phone">
-              <PhoneIcon /> 0161 622 0987
-            </a>
-            <a href="#" className="btn btn-accent mobile-menu-cta" onClick={() => setMobileMenuOpen(false)}>
-              Book Free Consultation
-            </a>
-          </div>
-        </div>
-      </div>
-
       {/* HERO */}
       <section className="hero">
         <div className="hero-bg">
@@ -630,14 +220,13 @@ export default function Home() {
             </div>
           </div>
         </div>
+        {/* Hero to Treatments curve */}
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 10, height: "140px" }}>
+          <svg viewBox="0 0 1440 140" preserveAspectRatio="none" style={{ display: "block", width: "100%", height: "100%" }}>
+            <path d="M0,80 C200,140 400,100 720,120 C1000,138 1200,90 1440,110 L1440,140 L0,140 Z" fill="#fff" />
+          </svg>
+        </div>
       </section>
-
-      {/* Hero to Treatments curve */}
-      <div className="section-curve-divider" style={{ background: "transparent", position: "relative", marginTop: "-140px", zIndex: 10 }}>
-        <svg viewBox="0 0 1440 140" preserveAspectRatio="none">
-          <path d="M0,80 C200,140 400,100 720,120 C1000,138 1200,90 1440,110 L1440,140 L0,140 Z" fill="#fff" />
-        </svg>
-      </div>
 
       {/* TREATMENTS */}
 
@@ -915,7 +504,7 @@ export default function Home() {
       </section>
 
       {/* Journey to Team curve */}
-      <div className="section-curve-divider" style={{ background: "#faf7f4" }}>
+      <div className="section-curve-divider curve-tight" style={{ background: "#faf7f4" }}>
         <svg viewBox="0 0 1440 140" preserveAspectRatio="none">
           <path d="M0,0 L0,65 C200,100 450,50 720,75 C990,100 1200,110 1440,70 L1440,0 Z" fill="#faf7f4" />
           <path d="M0,65 C200,100 450,50 720,75 C990,100 1200,110 1440,70 L1440,140 L0,140 Z" fill="#f8f8f8" />
@@ -1100,7 +689,7 @@ export default function Home() {
       </section>
 
       {/* CTA PANEL */}
-      <div className="section-curve-divider" style={{ background: "transparent", marginBottom: "-140px", position: "relative", zIndex: 10 }}>
+      <div className="section-curve-divider curve-into-cta" style={{ background: "transparent" }}>
         <svg viewBox="0 0 1440 140" preserveAspectRatio="none">
           <path d="M0,0 L0,50 C120,80 300,110 500,85 C700,60 850,100 1050,110 C1200,117 1350,90 1440,65 L1440,0 Z" fill="#faf7f4" />
         </svg>
@@ -1133,167 +722,12 @@ export default function Home() {
       </section>
 
       {/* CTA to Visit curve */}
-      <div style={{ background: "transparent", marginTop: "-180px", position: "relative", zIndex: 10, height: "180px" }}>
+      <div className="curve-out-of-cta">
         <svg viewBox="0 0 1440 180" preserveAspectRatio="none" style={{ display: "block", width: "100%", height: "100%" }}>
           <path d="M0,80 C160,120 380,140 600,110 C820,80 1050,125 1260,135 C1360,140 1420,125 1440,115 L1440,180 L0,180 Z" fill="#faf7f4" />
         </svg>
       </div>
 
-      {/* VISIT US / MAP */}
-      <section className="visit-section">
-        <div className="visit-container">
-          <div className="visit-info">
-            <h2 className="visit-title">Get In Touch <span style={{ color: "var(--coral)" }}>With Us</span></h2>
-            <p className="visit-desc">
-              We&apos;re conveniently located in Oldham with free patient parking. Book a consultation and start your smile journey today.
-            </p>
-
-            <div className="visit-details">
-              <div className="visit-item">
-                <div className="visit-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                    <circle cx="12" cy="10" r="3" />
-                  </svg>
-                </div>
-                <div className="visit-text">
-                  <p><strong>Oldham Orthodontics</strong></p>
-                  <p>221 Hollins Road, Oldham</p>
-                  <p>OL8 3AA</p>
-                </div>
-              </div>
-
-              <div className="visit-item">
-                <div className="visit-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
-                  </svg>
-                </div>
-                <div className="visit-text">
-                  <a href="tel:01616220987"><strong>0161 622 0987</strong></a>
-                </div>
-              </div>
-
-              <div className="visit-item">
-                <div className="visit-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <circle cx="12" cy="12" r="10" />
-                    <polyline points="12 6 12 12 16 14" />
-                  </svg>
-                </div>
-                <div className="visit-text">
-                  <p><strong>Opening Times</strong></p>
-                </div>
-              </div>
-
-              <div className="hours-grid">
-                <div className="hours-row">
-                  <span>Monday</span>
-                  <span>9am – 5pm</span>
-                </div>
-                <div className="hours-row">
-                  <span>Tuesday</span>
-                  <span>9am – 6pm</span>
-                </div>
-                <div className="hours-row">
-                  <span>Wednesday</span>
-                  <span>9am – 5pm</span>
-                </div>
-                <div className="hours-row">
-                  <span>Thursday</span>
-                  <span>9am – 5pm</span>
-                </div>
-                <div className="hours-row">
-                  <span>Friday</span>
-                  <span>9am – 5pm</span>
-                </div>
-                <div className="hours-row">
-                  <span>Saturday</span>
-                  <span>Closed</span>
-                </div>
-                <div className="hours-row">
-                  <span>Sunday</span>
-                  <span>Closed</span>
-                </div>
-              </div>
-
-              <a
-                href="https://www.google.com/maps/search/?api=1&query=221+Hollins+Road+Oldham+OL8+3AA"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-accent"
-                style={{ marginTop: "16px" }}
-              >
-                Get Directions &rarr;
-              </a>
-            </div>
-          </div>
-
-          <div className="visit-map">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2371.8892!2d-2.1047!3d53.5408!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487bb7e5b5b5b5b5%3A0x0!2s221+Hollins+Rd%2C+Oldham+OL8+3AA!5e0!3m2!1sen!2suk!4v1"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Oldham Orthodontics Location"
-            ></iframe>
-          </div>
-        </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer className="minimal-footer">
-        <div className="minimal-footer-container">
-          <div className="minimal-footer-top">
-            <div className="minimal-footer-logo">
-              <img src="/images/tio-logo.png" alt="Oldham Orthodontics" className="footer-logo-img" />
-            </div>
-            <div className="minimal-footer-social">
-              <a href="#" aria-label="Instagram">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                </svg>
-              </a>
-              <a href="#" aria-label="Twitter">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
-                </svg>
-              </a>
-              <a href="#" aria-label="Facebook">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                </svg>
-              </a>
-              <a href="#" aria-label="YouTube">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                </svg>
-              </a>
-            </div>
-          </div>
-          <div className="minimal-footer-divider"></div>
-          <div className="minimal-footer-bottom">
-            <p className="minimal-footer-copyright">
-              © COPYRIGHT 2025 | OLDHAM ORTHODONTICS | ALL RIGHTS RESERVED
-            </p>
-            <div className="minimal-footer-legal">
-              <a href="#">PRIVACY POLICY</a>
-              <span>|</span>
-              <a href="#">TERMS & CONDITIONS</a>
-              <span>|</span>
-              <a href="#">COOKIES POLICY</a>
-            </div>
-          </div>
-        </div>
-      </footer>
-
-      {/* Floating mobile CTA */}
-      <div className={`mobile-floating-cta ${scrolled ? "visible" : ""}`}>
-        <a href="#" className="btn btn-accent">Free Consultation</a>
-      </div>
     </>
   );
 }
