@@ -12,7 +12,7 @@ export default function InnerHero({
   label,
   title,
   description,
-  ctaText = "Book Free Consultation",
+  ctaText,
   ctaHref = "/free-consultation",
   image,
   imageAlt = "",
@@ -24,12 +24,14 @@ export default function InnerHero({
           <span className="inner-hero-label">{label}</span>
           <h1>{title}</h1>
           <p>{description}</p>
-          <a href={ctaHref} className="btn btn-accent">
-            {ctaText}
-          </a>
+          {ctaText && (
+            <a href={ctaHref} className="btn btn-accent">
+              {ctaText}
+            </a>
+          )}
         </div>
         <div className="inner-hero-image">
-          <img src={image} alt={imageAlt} />
+          <img src={image} alt={imageAlt} width={1600} height={900} fetchPriority="high" />
         </div>
       </div>
     </section>

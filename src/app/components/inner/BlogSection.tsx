@@ -33,7 +33,7 @@ export default function BlogSection({
           {posts.map((post, i) => (
             <article key={i} className="blog-featured-card">
               <div className="blog-featured-image">
-                <img src={post.image} alt={post.title} />
+                <img src={post.image} alt={post.title} width={1600} height={900} loading="lazy" />
               </div>
               <div className="blog-featured-content">
                 <span className="blog-featured-date">{post.date}</span>

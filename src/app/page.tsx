@@ -12,7 +12,7 @@ const FloatingLogo = ({
   style?: React.CSSProperties;
 }) => (
   <div className={`floating-logo ${className}`} style={style}>
-    <img src="/images/oldham-circle-watermark.png" alt="" />
+    <img src="/images/oldham-circle-watermark.png" alt="" width={1664} height={1664} loading="lazy" />
   </div>
 );
 
@@ -139,7 +139,7 @@ function TeamSection() {
                 >
                   <div className={`carousel-card-img carousel-card-img-${member.gender}`}>
                     {member.image ? (
-                      <img src={member.image} alt={member.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                      <img src={member.image} alt={member.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} width={1600} height={900} loading="lazy" />
                     ) : (
                       <svg viewBox="0 0 100 100" className="placeholder-avatar">
                         <circle cx="50" cy="35" r="20" fill="currentColor" opacity="0.3" />
@@ -172,7 +172,7 @@ export default function Home() {
       {/* HERO */}
       <section className="hero">
         <div className="hero-bg">
-          <img src="/images/hero.jpg" alt="Orthodontics patient smiling" />
+          <img src="/images/hero.jpg" alt="Orthodontics patient smiling" width={5988} height={3992} loading="lazy" />
         </div>
         <FloatingLogo
           className="xl drift light"
@@ -254,7 +254,7 @@ export default function Home() {
             <AnimatedElement>
               <div className="treatment-card">
                 <div className="treatment-img-wrap">
-                  <img src="/images/Braces.jpg" alt="Fixed Braces" className="treatment-bg" />
+                  <img src="/images/Braces.jpg" alt="Fixed Braces" className="treatment-bg" width={2121} height={1414} loading="lazy" />
                   <div className="treatment-overlay"></div>
                 </div>
                 <div className="treatment-content">
@@ -270,7 +270,7 @@ export default function Home() {
             <AnimatedElement>
               <div className="treatment-card">
                 <div className="treatment-img-wrap">
-                  <img src="/images/Invisalign.jpg" alt="Clear Aligners" className="treatment-bg" />
+                  <img src="/images/Invisalign.jpg" alt="Clear Aligners" className="treatment-bg" width={2121} height={1414} loading="lazy" />
                   <div className="treatment-overlay"></div>
                 </div>
                 <div className="treatment-content">
@@ -286,7 +286,7 @@ export default function Home() {
             <AnimatedElement>
               <div className="treatment-card">
                 <div className="treatment-img-wrap">
-                  <img src="/images/child.jpg" alt="Children and Teens" className="treatment-bg" />
+                  <img src="/images/child.jpg" alt="Children and Teens" className="treatment-bg" width={2121} height={1414} loading="lazy" />
                   <div className="treatment-overlay"></div>
                 </div>
                 <div className="treatment-content">
@@ -302,7 +302,7 @@ export default function Home() {
             <AnimatedElement>
               <div className="treatment-card">
                 <div className="treatment-img-wrap">
-                  <img src="/images/Adult.jpg" alt="Adult Orthodontics" className="treatment-bg" />
+                  <img src="/images/Adult.jpg" alt="Adult Orthodontics" className="treatment-bg" width={2000} height={1500} loading="lazy" />
                   <div className="treatment-overlay"></div>
                 </div>
                 <div className="treatment-content">
@@ -349,7 +349,7 @@ export default function Home() {
             <AnimatedElement>
               <div className="why-card">
                 <div className="icon">
-                  <img src="/images/consultation.png" alt="Free Consultation" />
+                  <img src="/images/consultation.png" alt="Free Consultation" width={512} height={512} loading="lazy" />
                 </div>
                 <h3>Free Consultation</h3>
                 <p>
@@ -362,7 +362,7 @@ export default function Home() {
             <AnimatedElement>
               <div className="why-card">
                 <div className="icon">
-                  <img src="/images/medical.png" alt="Experienced Orthodontists" />
+                  <img src="/images/medical.png" alt="Experienced Orthodontists" width={512} height={512} loading="lazy" />
                 </div>
                 <h3>Experienced Orthodontists</h3>
                 <p>
@@ -374,7 +374,7 @@ export default function Home() {
             <AnimatedElement>
               <div className="why-card">
                 <div className="icon">
-                  <img src="/images/aligner.png" alt="Three Aligner Systems" />
+                  <img src="/images/aligner.png" alt="Three Aligner Systems" width={512} height={512} loading="lazy" />
                 </div>
                 <h3>Three Aligner Systems</h3>
                 <p>
@@ -386,7 +386,7 @@ export default function Home() {
             <AnimatedElement>
               <div className="why-card">
                 <div className="icon">
-                  <img src="/images/family.png" alt="Family-Friendly Practice" />
+                  <img src="/images/family.png" alt="Family-Friendly Practice" width={512} height={512} loading="lazy" />
                 </div>
                 <h3>Family-Friendly Practice</h3>
                 <p>
@@ -398,7 +398,7 @@ export default function Home() {
             <AnimatedElement>
               <div className="why-card">
                 <div className="icon">
-                  <img src="/images/monitor.png" alt="Modern Technology" />
+                  <img src="/images/monitor.png" alt="Modern Technology" width={512} height={512} loading="lazy" />
                 </div>
                 <h3>Modern Technology</h3>
                 <p>
@@ -410,7 +410,7 @@ export default function Home() {
             <AnimatedElement>
               <div className="why-card">
                 <div className="icon">
-                  <img src="/images/accessible.png" alt="Transparent Process" />
+                  <img src="/images/accessible.png" alt="Transparent Process" width={512} height={512} loading="lazy" />
                 </div>
                 <h3>Transparent Process</h3>
                 <p>
@@ -695,7 +695,7 @@ export default function Home() {
             </div>
           </div>
           <div className="cost-finance-image">
-            <img src="/images/Cost.jpg" alt="Flexible payment plans" />
+            <img src="/images/Cost.jpg" alt="Flexible payment plans" width={2121} height={1414} loading="lazy" />
           </div>
         </div>
       </section>

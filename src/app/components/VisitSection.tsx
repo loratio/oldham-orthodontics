@@ -12,9 +12,11 @@ const hours: [string, string][] = [
   ["Sunday", "Closed"],
 ];
 
+const HIDE_ON_PATHS = ["/contact", "/free-consultation"];
+
 export default function VisitSection() {
   const pathname = usePathname();
-  if (pathname === "/contact") return null;
+  if (HIDE_ON_PATHS.includes(pathname)) return null;
 
   return (
     <section className="visit-section">

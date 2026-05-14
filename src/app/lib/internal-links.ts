@@ -19,6 +19,7 @@ export const links = {
   // About Us children
   meetTeam: "/about-us/meet-our-team",
   ourPractice: "/about-us/our-practice",
+  blog: "/about-us/blog",
 
   // Clear Aligners
   clearAligners: "/treatments/clear-aligners",
@@ -42,6 +43,14 @@ export const links = {
   otherServices: "/treatments/other-services",
   jawSurgery: "/treatments/other-services/jaw-surgery",
   retainers: "/treatments/other-services/retainers",
+
+  // Legal
+  privacyPolicy: "/privacy-policy",
+  termsAndConditions: "/terms-and-conditions",
+  cookiesPolicy: "/cookies-policy",
+
+  // Professional
+  dentistReferrals: "/dentist-referrals",
 } as const;
 
 export type LinkKey = keyof typeof links;

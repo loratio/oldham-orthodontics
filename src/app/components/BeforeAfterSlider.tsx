@@ -57,11 +57,11 @@ export default function BeforeAfterSlider({
       onTouchMove={handleTouchMove}
     >
       <div className="ba-after">
-        <img src={afterImage} alt="After treatment" />
+        <img src={afterImage} alt="After treatment" width={1600} height={900} loading="lazy" />
       </div>
 
       <div className="ba-before" style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}>
-        <img src={beforeImage} alt="Before treatment" />
+        <img src={beforeImage} alt="Before treatment" width={1600} height={900} loading="lazy" />
       </div>
 
       <div

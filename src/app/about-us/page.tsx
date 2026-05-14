@@ -34,6 +34,13 @@ const sections = [
     href: links.ourPractice,
     learnMore: "Our Practice",
   },
+  {
+    title: "Blog",
+    description: "Tips, advice and insights from our Specialist Orthodontists - on braces, Invisalign®, retainers and more.",
+    image: "/images/blog-hero.webp",
+    href: links.blog,
+    learnMore: "Read the Blog",
+  },
 ];
 
 const testimonials = [

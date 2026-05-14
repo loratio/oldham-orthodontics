@@ -64,7 +64,7 @@ export default function TeamGrid({
           {members.map((m, i) => (
             <div key={i} className="team-grid-card">
               <div className="team-grid-photo">
-                {m.image ? <img src={m.image} alt={m.name} /> : <Avatar />}
+                {m.image ? <img src={m.image} alt={m.name} width={1600} height={900} loading="lazy" /> : <Avatar />}
               </div>
               <h4>{m.name}</h4>
               <span className="team-grid-role">{m.role}</span>
@@ -114,7 +114,7 @@ export default function TeamGrid({
             <div className="team-modal-content">
               {openMember.image && (
                 <div className="team-modal-photo">
-                  <img src={openMember.image} alt={openMember.name} />
+                  <img src={openMember.image} alt={openMember.name} width={1600} height={900} loading="lazy" />
                 </div>
               )}
               <h3 id="team-modal-name">{openMember.name}</h3>

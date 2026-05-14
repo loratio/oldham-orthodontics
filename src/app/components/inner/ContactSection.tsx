@@ -5,6 +5,7 @@ type ContactSectionProps = {
   address: string[];
   phone: string;
   email: string;
+  hours?: [string, string][];
   mapEmbedUrl: string;
   mapsLinkHref?: string;
 };
@@ -16,6 +17,7 @@ export default function ContactSection({
   address,
   phone,
   email,
+  hours,
   mapEmbedUrl,
   mapsLinkHref = "https://www.google.com/maps",
 }: ContactSectionProps) {
@@ -52,6 +54,25 @@ export default function ContactSection({
               </svg>
               <a href={`mailto:${email}`}>{email}</a>
             </div>
+            {hours && hours.length > 0 && (
+              <div className="contact-item contact-item--hours">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+                <div>
+                  <p className="contact-hours-title">Opening times</p>
+                  <ul className="contact-hours-list">
+                    {hours.map(([day, time]) => (
+                      <li key={day}>
+                        <span>{day}</span>
+                        <span>{time}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            )}
           </div>
           <a href={mapsLinkHref} target="_blank" rel="noopener noreferrer" className="maps-link">
             Open in Google Maps

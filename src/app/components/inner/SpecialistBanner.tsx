@@ -40,7 +40,7 @@ export default function SpecialistBanner({
           {specialists.map((s, i) => (
             <div key={i} className="specialist-member">
               <div className="specialist-photo">
-                {s.image ? <img src={s.image} alt={s.name} /> : <Avatar />}
+                {s.image ? <img src={s.image} alt={s.name} width={1600} height={900} loading="lazy" /> : <Avatar />}
               </div>
               <span className="specialist-name">{s.name}</span>
             </div>

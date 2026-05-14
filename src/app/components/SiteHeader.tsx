@@ -59,8 +59,10 @@ const menuItems: MenuItem[] = [
     submenu: [
       { label: "Meet Our Team", href: "/about-us/meet-our-team" },
       { label: "Our Practice", href: "/about-us/our-practice" },
+      { label: "Blog", href: "/about-us/blog" },
     ],
   },
+  { label: "Dentist Referrals", href: "/dentist-referrals" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -161,7 +163,7 @@ export default function SiteHeader() {
         <div className="top-bar">
           <div className="top-bar-inner" style={{ justifyContent: "flex-end" }}>
             <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
-              <a href="#" className="top-bar-link" style={{ fontWeight: 700 }}>
+              <a href="/dentist-referrals" className="top-bar-link" style={{ fontWeight: 700 }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                   <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
                   <circle cx="9" cy="7" r="4" />
@@ -170,8 +172,8 @@ export default function SiteHeader() {
                 </svg>
                 Dentist Referrals
               </a>
-              <a href="tel:01616200808" className="top-bar-phone">
-                <PhoneIcon /> 0161 620 0808
+              <a href="tel:01616220987" className="top-bar-phone">
+                <PhoneIcon /> 0161 622 0987
               </a>
             </div>
           </div>
@@ -180,7 +182,7 @@ export default function SiteHeader() {
         <header className={`header ${scrolled ? "scrolled" : ""}`}>
           <div className="header-inner">
             <a href="/" className="mobile-logo">
-              <img src="/images/oldham-logo.png" alt="Oldham Orthodontics" className="mobile-logo-img" />
+              <img src="/images/oldham-logo.png" alt="Oldham Orthodontics" className="mobile-logo-img" width={200} height={132} loading="lazy" />
             </a>
             <div className="logo-spacer"></div>
             <nav>
@@ -209,7 +211,7 @@ export default function SiteHeader() {
           </div>
         </header>
         <a href="/" className="nav-logo">
-          <img src="/images/oldham-logo.png" alt="Oldham Orthodontics" className="header-logo-img" />
+          <img src="/images/oldham-logo.png" alt="Oldham Orthodontics" className="header-logo-img" width={200} height={132} loading="lazy" />
         </a>
       </div>
 

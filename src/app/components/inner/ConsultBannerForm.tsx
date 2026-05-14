@@ -28,34 +28,46 @@ export default function ConsultBannerForm({
     <section id="consultation" className="consult-banner-section">
       <div className="consult-banner-container">
         <div className="consult-banner-image">
-          <img src={image} alt={imageAlt} />
+          <img src={image} alt={imageAlt} width={1600} height={900} loading="lazy" />
         </div>
         <div className="consult-banner-content">
           <span className="consult-banner-label">{label}</span>
           <h2>{title}</h2>
           <p>{description}</p>
           <form className="consult-banner-form" onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="First Name"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              required
-            />
-            <input
-              type="email"
-              placeholder="E-Mail"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              required
-            />
-            <input
-              type="tel"
-              placeholder="Phone Number"
-              value={formData.phone}
-              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              required
-            />
+            <label className="visually-hidden">
+              First Name
+              <input
+                type="text"
+                placeholder="First Name"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                autoComplete="given-name"
+                required
+              />
+            </label>
+            <label className="visually-hidden">
+              Email
+              <input
+                type="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                autoComplete="email"
+                required
+              />
+            </label>
+            <label className="visually-hidden">
+              Phone Number
+              <input
+                type="tel"
+                placeholder="Phone Number"
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                autoComplete="tel"
+                required
+              />
+            </label>
             <button type="submit" className="btn btn-accent">
               FREE CONSULTATION
             </button>

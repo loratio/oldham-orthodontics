@@ -31,7 +31,7 @@ export default function TreatmentGrid({
           {treatments.map((t, i) => (
             <a key={i} href={t.href ?? "#"} className="treatment-card">
               <div className="treatment-img-wrap">
-                <img src={t.image} alt={t.title} className="treatment-bg" />
+                <img src={t.image} alt={t.title} className="treatment-bg" width={1600} height={900} loading="lazy" />
                 <div className="treatment-overlay"></div>
               </div>
               <div className="treatment-content">

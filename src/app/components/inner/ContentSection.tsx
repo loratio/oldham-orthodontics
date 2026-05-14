@@ -27,7 +27,7 @@ export default function ContentSection({
     <section className={`content-section${alt ? " alt" : ""}`}>
       <div className={`content-container${imagePosition === "right" ? " reverse" : ""}`}>
         <div className="content-image">
-          <img src={image} alt={imageAlt} />
+          <img src={image} alt={imageAlt} width={1600} height={900} loading="lazy" />
         </div>
         <div className="content-text">
           {label && <span className="content-label">{label}</span>}

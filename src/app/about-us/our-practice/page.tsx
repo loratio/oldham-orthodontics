@@ -83,7 +83,7 @@ export default function OurPracticePage() {
           <div className="practice-gallery-grid">
             {gallery.map((img, i) => (
               <div key={i} className="practice-gallery-item">
-                <img src={img.src} alt={img.alt} />
+                <img src={img.src} alt={img.alt} width={1600} height={900} loading="lazy" />
               </div>
             ))}
           </div>

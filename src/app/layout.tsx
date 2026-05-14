@@ -12,6 +12,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://oldhamorthodontics.co.uk"),
   title: {
     default: "Oldham Orthodontics | Specialist Orthodontic Care in Oldham",
     template: "%s | Oldham Orthodontics",
@@ -20,6 +21,74 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.ico",
   },
+  openGraph: {
+    type: "website",
+    locale: "en_GB",
+    siteName: "Oldham Orthodontics",
+    title: "Oldham Orthodontics | Specialist Orthodontic Care in Oldham",
+    description: "Modern braces and advanced aligner treatments delivered by experienced, trusted orthodontists in a warm and welcoming practice in Oldham.",
+    url: "https://oldhamorthodontics.co.uk",
+    images: [
+      {
+        url: "/images/about-us-hero.webp",
+        width: 854,
+        height: 683,
+        alt: "The welcoming reception of the Oldham Orthodontics practice",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Oldham Orthodontics | Specialist Orthodontic Care in Oldham",
+    description: "Modern braces and advanced aligner treatments delivered by experienced, trusted orthodontists in Oldham.",
+    images: ["/images/about-us-hero.webp"],
+  },
+  alternates: {
+    canonical: "https://oldhamorthodontics.co.uk",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+};
+
+const practiceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Dentist",
+  name: "Oldham Orthodontics",
+  url: "https://oldhamorthodontics.co.uk",
+  logo: "https://oldhamorthodontics.co.uk/images/oldham-logo.png",
+  image: "https://oldhamorthodontics.co.uk/images/about-us-hero.webp",
+  telephone: "+44 161 622 0987",
+  email: "info@oldhamorthodontics.co.uk",
+  medicalSpecialty: "Orthodontic",
+  priceRange: "££",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "221 Hollins Road",
+    addressLocality: "Oldham",
+    postalCode: "OL8 3AA",
+    addressCountry: "GB",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 53.5408,
+    longitude: -2.1047,
+  },
+  openingHoursSpecification: [
+    { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday", "Wednesday", "Thursday", "Friday"], opens: "09:00", closes: "17:00" },
+    { "@type": "OpeningHoursSpecification", dayOfWeek: "Tuesday", opens: "09:00", closes: "18:00" },
+  ],
+  sameAs: [
+    "https://www.facebook.com/OldhamOrthodontics",
+    "https://www.youtube.com/channel/UC6v5MtYOziWoEu9ZU6TH9gA",
+  ],
 };
 
 export default function RootLayout({
@@ -30,6 +99,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${montserrat.variable} antialiased`}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(practiceSchema) }}
+        />
         <SiteHeader />
         {children}
         <VisitSection />

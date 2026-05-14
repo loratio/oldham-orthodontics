@@ -17,13 +17,12 @@ const steps = [
     ),
   },
   {
-    title: "Expert Assessment",
+    title: "A Closer Look",
     description: "A Specialist Orthodontist will examine your smile and discuss your goals in detail.",
     icon: (
       <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M32 8c-9 0-16 7-16 16 0 12 8 18 12 24h8c4-6 12-12 12-24 0-9-7-16-16-16z" />
-        <path d="M28 28a4 4 0 0 1 8 0" />
-        <line x1="32" y1="48" x2="32" y2="56" />
+        <circle cx="26" cy="26" r="14" />
+        <line x1="36.5" y1="36.5" x2="52" y2="52" />
       </svg>
     ),
   },
@@ -44,8 +43,11 @@ const steps = [
     description: "If you're happy to go ahead, we'll book your treatment start date - no pressure, no obligation.",
     icon: (
       <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="32" cy="32" r="22" />
-        <polyline points="22 32 30 40 44 24" />
+        <rect x="12" y="14" width="40" height="42" rx="3" />
+        <line x1="12" y1="26" x2="52" y2="26" />
+        <line x1="22" y1="10" x2="22" y2="20" />
+        <line x1="42" y1="10" x2="42" y2="20" />
+        <polyline points="22 41 30 49 42 35" />
       </svg>
     ),
   },
@@ -66,50 +68,66 @@ export default function FreeConsultationPage() {
 
   return (
     <>
-      <section className="booking-hero">
+      <section id="booking" className="booking-hero">
         <div className="booking-hero-container">
           <div className="booking-hero-content">
             <span className="booking-hero-label">BOOK FREE CONSULTATION</span>
             <h1>
               Start your smile journey with a free,
               <br />
-              no-obligation consultation.
+              no-obligation consultation
             </h1>
             <p>
               Meet our Specialist Orthodontists, talk through your goals, and discover the
               right treatment for you. There&apos;s no pressure - just expert advice and a clear plan.
             </p>
             <form className="booking-form" onSubmit={handleSubmit}>
-              <input
-                type="text"
-                placeholder="First Name"
-                value={formData.firstName}
-                onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                required
-              />
-              <input
-                type="text"
-                placeholder="Last Name"
-                value={formData.lastName}
-                onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                required
-              />
-              <input
-                type="email"
-                placeholder="E-Mail"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                required
-              />
-              <input
-                type="tel"
-                placeholder="Phone Number"
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                required
-              />
+              <label className="visually-hidden">
+                First Name
+                <input
+                  type="text"
+                  placeholder="First Name"
+                  value={formData.firstName}
+                  onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                  autoComplete="given-name"
+                  required
+                />
+              </label>
+              <label className="visually-hidden">
+                Last Name
+                <input
+                  type="text"
+                  placeholder="Last Name"
+                  value={formData.lastName}
+                  onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                  autoComplete="family-name"
+                  required
+                />
+              </label>
+              <label className="visually-hidden">
+                Email
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  autoComplete="email"
+                  required
+                />
+              </label>
+              <label className="visually-hidden">
+                Phone Number
+                <input
+                  type="tel"
+                  placeholder="Phone Number"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  autoComplete="tel"
+                  required
+                />
+              </label>
               <button type="submit" className="btn btn-accent booking-submit">
-                BOOK YOUR FREE CONSULTATION
+                Book your free consultation
               </button>
               <p className="booking-privacy">
                 For further information please read our{" "}
@@ -118,7 +136,7 @@ export default function FreeConsultationPage() {
             </form>
           </div>
           <div className="booking-hero-image">
-            <img src="/images/free-consultation-hero.webp" alt="A patient smiling during a relaxed consultation with her orthodontist" />
+            <img src="/images/free-consultation-hero.webp" alt="A patient smiling during a relaxed consultation with her orthodontist" width={1200} height={800} loading="lazy" />
           </div>
         </div>
       </section>
@@ -139,8 +157,8 @@ export default function FreeConsultationPage() {
               </div>
             ))}
           </div>
-          <a href="#" className="btn btn-accent appointment-steps-cta">
-            BOOK YOUR FREE CONSULTATION
+          <a href="#booking" className="btn btn-accent appointment-steps-cta">
+            Arrange your free consultation
           </a>
         </div>
       </section>
