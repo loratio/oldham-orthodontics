@@ -118,7 +118,7 @@ function TeamSection() {
             considering aligners, braces, or other treatments. No matter your
             starting point or goals, you&apos;ll be in safe, trusted hands.
           </p>
-          <a href="#" className="btn-team-cta">
+          <a href="/about-us/meet-our-team" className="btn-team-cta">
             Meet Our Team
           </a>
         </div>
@@ -197,10 +197,10 @@ export default function Home() {
               practice in Oldham.
             </p>
             <div className="hero-btns">
-              <a href="#" className="btn btn-accent">
+              <a href="/free-consultation" className="btn btn-accent">
                 Book Your Free Consultation
               </a>
-              <a href="#" className="btn btn-outline-light">
+              <a href="/costs" className="btn btn-outline-light">
                 Costs
               </a>
             </div>
@@ -421,7 +421,7 @@ export default function Home() {
             </AnimatedElement>
           </div>
           <div style={{ textAlign: "center", marginTop: "40px" }}>
-            <a href="#" className="btn btn-accent">About Us</a>
+            <a href="/about-us" className="btn btn-accent">About Us</a>
           </div>
         </div>
       </section>
@@ -496,7 +496,7 @@ export default function Home() {
             </AnimatedElement>
           </div>
           <div className="journey-cta">
-            <a href="#" className="btn btn-accent">
+            <a href="/free-consultation" className="btn btn-accent">
               Book a Free Consultation
             </a>
           </div>
@@ -611,17 +611,29 @@ export default function Home() {
           </div>
           <div className="gallery-grid">
             <AnimatedElement>
-              <BeforeAfterSlider label="Fixed Braces" />
+              <BeforeAfterSlider
+                label="Invisalign®"
+                beforeImage="/images/results/invisalign-case-1-before.webp"
+                afterImage="/images/results/invisalign-case-1-after.webp"
+              />
             </AnimatedElement>
             <AnimatedElement>
-              <BeforeAfterSlider label="Clear Aligners" />
+              <BeforeAfterSlider
+                label="Ceramic Braces"
+                beforeImage="/images/results/ceramic-case-1-before.webp"
+                afterImage="/images/results/ceramic-case-1-after.webp"
+              />
             </AnimatedElement>
             <AnimatedElement>
-              <BeforeAfterSlider label="Teen Treatment" />
+              <BeforeAfterSlider
+                label="Lingual Braces"
+                beforeImage="/images/results/lingual-case-1-before.webp"
+                afterImage="/images/results/lingual-case-1-after.webp"
+              />
             </AnimatedElement>
           </div>
           <div style={{ textAlign: "center", marginTop: "40px" }}>
-            <a href="#" className="btn btn-accent">Our Results</a>
+            <a href="/results" className="btn btn-accent">Our Results</a>
           </div>
         </div>
       </section>
@@ -679,7 +691,7 @@ export default function Home() {
               </div>
             </div>
             <div style={{ textAlign: "center", marginTop: "32px" }}>
-              <a href="#" className="btn btn-accent">Costs</a>
+              <a href="/costs" className="btn btn-accent">Costs</a>
             </div>
           </div>
           <div className="cost-finance-image">
@@ -714,7 +726,7 @@ export default function Home() {
             step towards the smile you&apos;ve always wanted.
           </p>
           <div className="btns">
-            <a href="#" className="btn btn-accent">
+            <a href="/free-consultation" className="btn btn-accent">
               Book Your Free Consultation
             </a>
           </div>

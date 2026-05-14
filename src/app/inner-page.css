@@ -1717,12 +1717,219 @@
   letter-spacing: 0.5px;
 }
 
+.team-grid-link {
+  display: inline-block;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  transition: color 0.15s;
+}
+
 .team-grid-link:hover {
   color: var(--coral);
 }
 
+.team-grid-gdc {
+  display: block;
+  font-size: 11px;
+  color: var(--text-light);
+  letter-spacing: 0.05em;
+  margin-top: -8px;
+  margin-bottom: 12px;
+}
+
 .team-grid-cta {
   text-align: left;
+}
+
+/* Practice Gallery */
+.practice-gallery-section {
+  padding: 100px 0;
+}
+
+.practice-gallery-section .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+.practice-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.practice-gallery-item {
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 3 / 2;
+  background: var(--warm-bg);
+}
+
+.practice-gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.practice-gallery-item:hover img {
+  transform: scale(1.04);
+}
+
+@media (max-width: 800px) {
+  .practice-gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .practice-gallery-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Practice Tour iframe */
+.practice-tour-section {
+  padding: 100px 0;
+}
+
+.practice-tour-section .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+.practice-tour-frame {
+  margin-top: 40px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--warm-bg);
+  box-shadow: 0 10px 40px rgba(26, 26, 62, 0.12);
+}
+
+.practice-tour-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+/* Team Member Modal */
+.team-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 26, 62, 0.7);
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: team-modal-fade-in 0.18s ease-out;
+}
+
+@keyframes team-modal-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.team-modal {
+  position: relative;
+  background: #fff;
+  border-radius: var(--radius);
+  max-width: 640px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 48px 40px 40px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+  animation: team-modal-rise 0.22s ease-out;
+}
+
+@keyframes team-modal-rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.team-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  font-size: 32px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--text-light);
+  padding: 4px 10px;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.team-modal-close:hover {
+  background: var(--warm-bg);
+  color: var(--charcoal);
+}
+
+.team-modal-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 20px;
+  background: linear-gradient(180deg, #4a8abf 0%, var(--blue) 100%);
+}
+
+.team-modal-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.team-modal-content h3 {
+  margin: 0 0 4px;
+  font-size: 22px;
+  color: var(--navy);
+}
+
+.team-modal-role {
+  display: block;
+  font-size: 13px;
+  color: var(--coral);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  margin-bottom: 4px;
+}
+
+.team-modal-gdc {
+  display: block;
+  font-size: 11px;
+  color: var(--text-light);
+  letter-spacing: 0.05em;
+  margin-bottom: 20px;
+}
+
+.team-modal-bio p {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.7;
+  margin: 0 0 12px;
+}
+
+.team-modal-bio p:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 600px) {
+  .team-modal {
+    padding: 40px 24px 28px;
+  }
 }
 
 /* Success Stories Section */
