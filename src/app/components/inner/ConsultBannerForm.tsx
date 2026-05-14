@@ -35,39 +35,33 @@ export default function ConsultBannerForm({
           <h2>{title}</h2>
           <p>{description}</p>
           <form className="consult-banner-form" onSubmit={handleSubmit}>
-            <label className="visually-hidden">
-              First Name
-              <input
-                type="text"
-                placeholder="First Name"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                autoComplete="given-name"
-                required
-              />
-            </label>
-            <label className="visually-hidden">
-              Email
-              <input
-                type="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                autoComplete="email"
-                required
-              />
-            </label>
-            <label className="visually-hidden">
-              Phone Number
-              <input
-                type="tel"
-                placeholder="Phone Number"
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                autoComplete="tel"
-                required
-              />
-            </label>
+            <input
+              type="text"
+              aria-label="First Name"
+              placeholder="First Name"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              autoComplete="given-name"
+              required
+            />
+            <input
+              type="email"
+              aria-label="Email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              autoComplete="email"
+              required
+            />
+            <input
+              type="tel"
+              aria-label="Phone Number"
+              placeholder="Phone Number"
+              value={formData.phone}
+              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              autoComplete="tel"
+              required
+            />
             <button type="submit" className="btn btn-accent">
               FREE CONSULTATION
             </button>
