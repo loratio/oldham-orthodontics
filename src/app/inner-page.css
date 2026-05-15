@@ -3397,3 +3397,40 @@
     gap: 0;
   }
 }
+
+/* Form error + thank-you helpers */
+.form-error {
+  margin: 4px 0 0;
+  padding: 10px 14px;
+  background: #fdecec;
+  border: 1px solid #f5c2c2;
+  border-radius: 8px;
+  color: #8a1f1f;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.form-error--warn {
+  background: #fff8e6;
+  border-color: #f0d28a;
+  color: #7a5a10;
+}
+
+.thank-you-help {
+  margin: 8px 0 24px;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.thank-you-help a {
+  color: var(--blue);
+  font-weight: 600;
+}
+
+input[aria-invalid="true"],
+textarea[aria-invalid="true"],
+select[aria-invalid="true"] {
+  border-color: #d44 !important;
+  box-shadow: 0 0 0 3px rgba(212, 68, 68, 0.12) !important;
+}
+

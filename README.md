@@ -27,14 +27,14 @@ Patient enquiries are captured by **PRM** (Patient Relationship Manager by TIO).
 
 The site has four forms. All four post directly to PRM using the same shared submission helper.
 
-> **Status:** `wf` IDs and PRM account number are **pending** confirmation from the digital strategist. Once confirmed, replace the `TODO_REPLACE` placeholders in each form component and the `NEXT_PUBLIC_PRM_ACCOUNT_ID` env var in Vercel.
+> **Status:** `wf` workflow IDs are wired into each form. The free-consultation page and the inline consultation banner share the same workflow. The `NEXT_PUBLIC_PRM_ACCOUNT_ID`, `NEXT_PUBLIC_TDS_API_KEY`, and `NEXT_PUBLIC_PRM_ENDPOINT` env vars must be set in Vercel before forms can submit.
 
 | Form | Page | Component | Workflow ID (`wf`) |
 |------|------|-----------|--------------------|
-| Contact Enquiry | `/contact` | `src/app/contact/EnquiryForm.tsx` | `wf/TODO_REPLACE/...` |
-| Free Consultation | `/free-consultation` | `src/app/free-consultation/page.tsx` | `wf/TODO_REPLACE/...` |
-| Dentist Referral | `/dentist-referrals` | `src/app/dentist-referrals/ReferralForm.tsx` | `wf/TODO_REPLACE/...` |
-| Inline Consultation Banner | (reusable, used on inner pages) | `src/app/components/inner/ConsultBannerForm.tsx` | `wf/TODO_REPLACE/...` |
+| Contact Enquiry | `/contact` | `src/app/contact/EnquiryForm.tsx` | `wf/nyw6lrrwpd/bdba9cd293355d512336` |
+| Free Consultation | `/free-consultation` | `src/app/free-consultation/page.tsx` | `wf/9vwmnqe0xr/bc4c109e526c29e859de` |
+| Dentist Referral | `/dentist-referrals` | `src/app/dentist-referrals/ReferralForm.tsx` | `wf/r9zy3p206q/9ebc81c406a16a315785` |
+| Inline Consultation Banner | (reusable, used on inner pages) | `src/app/components/inner/ConsultBannerForm.tsx` | `wf/9vwmnqe0xr/bc4c109e526c29e859de` (shared with free-consultation) |
 
 ### Shared submission helper
 
@@ -42,8 +42,8 @@ A single helper handles all PRM POSTs so each form only worries about field coll
 
 ```
 src/app/lib/
-  formSubmit.ts       # submitPrmForm() + uploadFile() — to be added
-  validators.ts       # required/email/phone/postcode/dateOfBirth — to be added
+  formSubmit.ts       # submitPrmForm() + uploadFile()
+  validators.ts       # required/email/phone/optionalPhone/postcode/dateOfBirth
 ```
 
 **`submitPrmForm(form: HTMLFormElement)`**
@@ -125,21 +125,16 @@ Set these on the Vercel project before forms will submit:
 
 All three are `NEXT_PUBLIC_*` because they are read in client components. The API key is account-level (not user-level) and gated behind PRM's per-account access controls — the same model TBP and Pallant use.
 
-## What the strategist needs to confirm
+## What's still needed before go-live
 
-Before the forms can go live, the digital strategist must provide:
+Workflow IDs are wired into the components. To make the forms actually submit:
 
-1. **PRM account ID** — for `NEXT_PUBLIC_PRM_ACCOUNT_ID`
-2. **Four `wf` workflow IDs** — one per form, each pointing at its PRM action set
-3. **Email recipient(s)** — `local_part[0]` + `domain[0]` for GDPR routing (default expectation: `info@oldhamorthodontics.co.uk` or similar)
-4. **Per-form action sets configured in PRM** — email templates, notification recipients, GDPR copy address
+1. **Set the three env vars in Vercel** (Production + Preview): `NEXT_PUBLIC_PRM_ENDPOINT`, `NEXT_PUBLIC_TDS_API_KEY`, `NEXT_PUBLIC_PRM_ACCOUNT_ID`
+2. **Confirm the GDPR recipient** — currently `info@oldhamorthodontics.co.uk` (set via `local_part[0]` + `domain[0]` in each form). If it should be a different inbox, update those constants in the four form components.
+3. **Verify each workflow's action set is configured in PRM** — email templates, notification recipients, GDPR copy address. The Dentist Referral wf requires the `dentist_form=1` flag (already submitted) for the GDPR email template to dispatch.
+4. **End-to-end test** — submit each form on the Vercel preview, confirm leads land in PRM dashboard + notification emails arrive.
 
-Email sent — awaiting reply. Once confirmed, swap placeholders in:
-- `src/app/contact/EnquiryForm.tsx` — `PRM_WEB_FORM`, `THANKS_URL`, email constants
-- `src/app/free-consultation/page.tsx` — same
-- `src/app/dentist-referrals/ReferralForm.tsx` — same, plus `dentist_form=1` hidden flag
-- `src/app/components/inner/ConsultBannerForm.tsx` — same
-- Vercel env vars
+Thank-you pages live at `/contact-thank-you`, `/consultation-thank-you`, `/referral-thank-you` and are marked `robots: noindex` so they don't pollute search.
 
 ## Deployment
 
@@ -190,11 +185,11 @@ public/
 - [x] Forms scaffolded (UI complete, submission stubbed to `console.log`)
 - [x] BugHerd feedback widget embedded
 - [x] Core Web Vitals + SEO infrastructure
-- [ ] **PRM `wf` IDs received from strategist**
-- [ ] **`formSubmit.ts` + `validators.ts` helpers added**
-- [ ] **Forms wired to PRM** (replace `console.log` with `submitPrmForm`)
-- [ ] **Honeypots + UTM hidden fields added to each form**
-- [ ] **Thank-you pages / inline confirmation finalised**
+- [x] **PRM `wf` IDs received from strategist**
+- [x] **`formSubmit.ts` + `validators.ts` helpers added**
+- [x] **Forms wired to PRM** (`submitPrmForm` + per-field validation)
+- [x] **Honeypots + UTM hidden fields added to each form**
+- [x] **Thank-you pages live** (`/contact-thank-you`, `/consultation-thank-you`, `/referral-thank-you`)
 - [ ] **Vercel env vars set** (`NEXT_PUBLIC_PRM_ENDPOINT`, `NEXT_PUBLIC_TDS_API_KEY`, `NEXT_PUBLIC_PRM_ACCOUNT_ID`)
 - [ ] **End-to-end test** — submit each form on the deployed preview, verify lead lands in PRM dashboard + notification email arrives
 - [ ] DNS pointed to Vercel
